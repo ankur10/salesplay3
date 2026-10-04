@@ -1,96 +1,176 @@
-# SalesPlay account workspace
+# SalesPlay UI redesign
 
-Interactive React prototype with an opportunity-led Home, account directory, opportunity queue, first-class contacts, local research pages, and contextual AI. The replacement visual direction draws on the giq2 Advisory reference using locally served Source fonts, an editorial hierarchy, and a navy command bar.
+A working frontend reference for integrating the redesigned SalesPlay experience into the main product. It demonstrates the intended appearance, information hierarchy, navigation, and interactions using captured 3M Company content from the seller perspective of LANXESS Aktiengesellschaft.
 
-## Run
+**This is a design prototype, not a replacement production application.** It has no authentication, backend integration, live AI, or outreach. Reuse the experience and adapt it to the main repository’s existing router, services, permissions, and components. Keep existing backend API contracts unchanged.
+
+## Start here
+
+| Document | Purpose |
+| --- | --- |
+| [README.md](README.md) | Product experience, design philosophy, file map, routes, and prototype limits |
+| [INTEGRATION.md](INTEGRATION.md) | Production migration approach, integration boundaries, acceptance checklist, and a Claude Code handoff prompt |
+| [CLAUDE.md](CLAUDE.md) | Instructions for Claude Code working in this reference repo or porting it into SalesPlay |
+| [DESIGN.md](DESIGN.md) | Established typography, palette roles, components, and later scoped refinements |
+| [PRODUCT.md](PRODUCT.md) | Confirmed scope and detailed product behavior |
+| [DIRECTION.md](DIRECTION.md) | Original visual rationale; historical verification sections are not current implementation instructions |
+
+The current rendered UI and implementation establish what has shipped in the prototype. Some earlier design documents retain historical token values and screenshots; use the active CSS cascade to resolve current values. If a migration requirement conflicts with production constraints, record the conflict rather than silently dropping behavior.
+
+## Run locally
+
+Use a Node.js version compatible with the locked Vite 6 dependency. The repo does not currently pin a Node version.
 
 ```sh
-npm install
+npm ci
 npm run dev
+npm run build
+npm run preview
 ```
 
-Open the localhost URL printed by Vite. `npm run build` creates `dist`; `npm run preview` serves it. Deployment requires an SPA fallback to `index.html` so deep links resolve on refresh.
+Vite serves on `127.0.0.1` and prints its port. The development default is usually `5173`. The build outputs `dist/`. Production hosting needs an SPA fallback to `index.html` for deep-link refreshes. Do not copy this host configuration into the main application without checking its deployment conventions.
 
-## Included
+Stack: React 19, Vite 6, plain JavaScript/JSX, Lucide icons, and plain CSS. No router library, test runner, formatter, or linter is configured in this reference repo. `package-lock.json` is the dependency lock.
 
-- Home at `/home` with the seven captured 3M opportunities, To review / Accepted / Rejected tabs, search and clear-search empty state, direct Accept/Reject and Return to review, linked or uploaded people, combined recent work, dated signals, and favourite/recent account shortcuts. A first-use guide offers account selection, contact upload, and the first opportunity when recent work is empty.
-- A 121-account directory with search, industry/region filters, sorting, 20/50/100-row pagination, and empty states. The captured 3M account opens opportunities; 120 user-approved fictional accounts open clearly labelled previews. Account favourites and recent visits persist in this browser.
+## Design philosophy
 
-- Seven captured opportunities, status/search/filter/sort controls, review and undo, bookmarks, and URL-backed detail tabs. The New Ulm record includes the complete inspected battle card, with a full-width title, labelled business-unit/region/offering metadata, readable goal/evidence sections, and people/next-action aside.
-- Twenty-two unique captured contacts plus browser-local uploads, a searchable All people / Uploaded directory, unique profiles, saved contacts, detailed captured opportunities, and contact-to-AI handoff. CSV files or pasted CSV go through column mapping and review before import (500 contacts / 2 MB). Invalid, duplicate, and other-account rows are skipped with reasons. Profile keyword search covers the seven captured opportunities; results do not establish a verified relationship.
-- Global account-name search from portfolio pages; search across captured opportunities, people, documents, and signals within 3M; a top-bar Ask SalesPlay launcher that opens the dedicated AI workspace with current opportunity, person, or document context. Reusing the launcher inside AI preserves the current draft.
-- Automatic browser-local history for the latest 50 conversations, with search, date groups, timestamps, question counts, and resume/continue actions. Desktop shows recent interactions beside the conversation; at 900px and below a header toggle switches between history and conversation. A compact working-context disclosure and contained transcript scroll keep the workspace focused.
-- Company overview, ten signals with local readers, captured annual financial and key competitor tables, and three full captured document text readers.
-- Top-bar colour picker with giq2-inspired Precision, Advisory (default), and Mineral palettes. The choice persists in this browser across routes and reloads, and synchronizes between open tabs.
-- Readable 16px body type, quieter opportunity rows, task-specific assistant actions, and the restored SalesPlay text signature. The experimental logo and favicon are removed. People, Signals, Company brief, and Research library are current display labels; existing 3M URLs remain stable.
-- Account research starts expanded with its nested Research library collapsed. The rail footer collapses navigation to a 64px icon rail on desktop/tablet, with labelled hover/focus destinations and an expand control. Mobile retains overlay navigation and the breadcrumb reopen control. Scrollbar chrome is hidden while scrolling remains available when needed.
-- Responsive layouts, mobile people shortcut, keyboard focus, reduced-motion support, and Command/Ctrl+K search.
+### Lead with the next sales action
 
-## Local routes
+Home answers “What should I pursue next?” Opportunities lead; people, signals, accounts, and recent work support that decision. Avoid equally weighted dashboard widgets, decorative metrics, and large empty hero areas. Show useful records and actions early.
 
-All account rail destinations stay on the prototype origin. `/` redirects to `/home`. Captured entity identifiers remain unchanged; fictional directory IDs use the `sample-<number>-<number>` pattern.
+### Make people first-class
 
-| Surface | URL |
+Contacts have searchable directories, individual URLs, detailed opportunity context, and direct AI handoff. Uploaded contacts sit alongside captured contacts with their origin disclosed. A keyword search result is not a verified relationship or proof of decision-making authority.
+
+### Make AI a workspace
+
+Ask SalesPlay is prominent in the command bar and has a dedicated page, visible account/entity context, a focused composer, and resumable history. It is not a permanent panel competing with research for width. Home currently scopes AI to 3M; cross-account AI has not been implemented.
+
+### Keep dense research calm and readable
+
+The giq2 Advisory reference informed the editorial direction: Source Serif 4 headings, Source Sans 3 controls/body text, a navy command bar, quiet light surfaces, fine separators, restrained corners, and theme-aware actions. Use spacing and type hierarchy before adding boxes. Preserve complete opportunity titles and use progressive disclosure for supporting evidence.
+
+### Preserve context without trapping the conversation
+
+Normal app navigation and recent-conversation selection use the same tab. **Detail/source links inside AI responses open a new tab**, leaving the original conversation and draft intact. These links use an arrow icon, an “Opens in a new tab” tooltip, and screen-reader text. No “Back to conversation” UI is required. Ordinary internal links still support Cmd/Ctrl-click and browser Back/Forward.
+
+### Be explicit about evidence and state
+
+Evidence strength describes captured research, not predicted success. Accept/Reject is prominent and reversible in the preview. Missing data stays visibly missing. Signals pages and Home use an unambiguous date format such as `23 Sept 2026`. Some other surfaces, including signal metadata in global search, still display raw captured date strings; consistent formatting across every surface remains integration work. Do not fabricate contacts, ownership, scores, source links, recency, or AI capability.
+
+## Experience by surface
+
+| Surface | Intended behavior |
+| --- | --- |
+| Home | Opportunity queue with search and review-state tabs; Accept/Reject; linked/uploaded people; recent work; scoped AI prompt; three signals; favourite/recent accounts; first-use guidance when history is empty |
+| Account directory | Search, industry/region filters, sorting, pagination, favourites, recent accounts, and explicit sample-account previews |
+| Opportunity queue | Search/filter/sort, evidence labels, contact entry points, bookmarks, and review-state controls |
+| Opportunity detail | Readable full title; business units, region, offerings; Overview/Evidence/Conversation kit URLs; prominent Accept/Reject; people and next-action context |
+| People | All/Uploaded views, role/search/saved filters, profiles, verified captured links separated from opportunity search results |
+| Contact import | CSV file or paste → map columns → review valid/skipped rows → import; errors and duplicate reasons before confirmation |
+| Ask SalesPlay | Account plus optional opportunity/contact/document context; scripted responses; composer; searchable recent interactions; response links in new tabs |
+| Research | Company brief, Signals and readers, documents and readers, investor deck, earnings call, financials, and competitors |
+| Shell | Top command bar, theme picker, local breadcrumbs, expanded account research, collapsed research library, desktop icon rail, mobile overlay navigation |
+
+## Relevant files
+
+| File | Responsibility / integration seam |
+| --- | --- |
+| `src/main.jsx` | App state and composition; shell; opportunity queue/detail; contextual AI; `changeStatus`, `ask`, `askEntity`; `AIResponse` and new-tab `ResponseLink` |
+| `src/HomeWorkspace.jsx` | Home composition and `useRecentWork`; consumes opportunities, contacts, account preferences, conversations, and action callbacks |
+| `src/AccountDirectory.jsx` | Directory, recent/favourite/sample views and `useAccountPreferences` |
+| `src/PeopleWorkspace.jsx` | People directory/profile, captured opportunity relationships, and keyword search |
+| `src/ContactImport.jsx` | Import UI, file/paste handling, mapping, review, and success states |
+| `src/contactImportData.js` | CSV parsing, field inference, row validation/deduplication, and local imported-contact loading |
+| `src/GlobalBar.jsx` | Ask SalesPlay launcher, search mode/results, keyboard shortcut, theme control |
+| `src/conversations.js` | Local conversation model, storage validation, scope-bearing URLs, and simulated reply timer |
+| `src/ConversationHistory.jsx` | Searchable, grouped conversation history and same-tab resume |
+| `src/WorkspacePages.jsx` | Research pages and shared `LocalLink`, `Avatar`, `PeoplePanel`; captured contacts/documents exports; delegates people/import pages |
+| `src/routing.js` | Prototype History API router, paths, route parsing, title labels, and ordinary same-tab link handling |
+| `src/data.js` | Seven captured opportunities; complete New Ulm battle card; three original starting contacts |
+| `src/research.json` | Captured contacts, signals, document text, overview, financials, and competitors |
+| `src/accounts.js` | 3M plus fictional account fixtures and portfolio-view configuration |
+| `src/ThemePicker.jsx`, `public/theme.js` | Theme selection, persistence, cross-tab theme sync, and pre-paint restoration |
+| `public/fonts/` | Local font assets and `FONT-LICENSES.txt`; preserve licenses when carrying assets across |
+| `.impeccable/briefs/` | Feature-specific design decisions; useful reference, not production runtime dependencies |
+
+### Styling and ownership
+
+The prototype evolved through layered CSS. Main imports are ordered: `styles.css` → `premium.css` → `themes.css` → `workspace.css` → `accounts.css` → `refinements.css` → `people-research.css`. `HomeWorkspace.jsx` also imports its scoped `home.css`.
+
+- `styles.css`: inherited base layout and controls.
+- `premium.css`: editorial visual layer and local font faces.
+- `themes.css`: current semantic palette tokens for Precision, Advisory (default), and Mineral.
+- `workspace.css`: shared readability and workspace refinements.
+- `accounts.css`: portfolio and navigation refinements.
+- `refinements.css`: AI history/composer and opportunity-detail refinements.
+- `people-research.css`: people/import, compact rail, decisions, overview, and Signals.
+- `home.css`: opportunity-led Home, responsive composition, and supporting sections.
+
+For production, map the **computed end result** into the existing design system; do not paste every global stylesheet into the main repo. Theme IDs and header colors are duplicated in `ThemePicker.jsx` and `public/theme.js`; keep them aligned with `themes.css`. Self-host fonts and retain their licenses.
+
+## Routes and link behavior
+
+These are reference URLs, not a mandate to replace production URLs. `/` redirects to `/home`. Every detail has a unique URL and supports refresh and Back/Forward.
+
+| Surface | Prototype path |
 | --- | --- |
 | Home | `/home` |
-| All accounts / recently used / favourites | `/accounts`, `/accounts/recent`, `/accounts/favourites` |
-| Fictional account preview | `/accounts/sample-:group-:sector` (for example `/accounts/sample-1-1`) |
-| Help | `/help` |
-| Opportunity queue | `/accounts/3m/opportunities` |
-| Opportunity detail / tabs | `/accounts/3m/opportunities/:id`, with `/evidence` or `/conversation-kit` |
-| Contact upload | `/accounts/3m/contacts/import` |
-| Contact directory / profile | `/accounts/3m/contacts`, `/accounts/3m/contacts/:id` |
-| AI workspace | `/accounts/3m/ask` |
-| Overview | `/accounts/3m/overview` |
+| All / recent / favourite accounts | `/accounts`, `/accounts/recent`, `/accounts/favourites` |
+| Sample account | `/accounts/sample-:group-:sector` |
+| Opportunity queue / detail | `/accounts/3m/opportunities`, `/accounts/3m/opportunities/:id` |
+| Detail tabs | `/accounts/3m/opportunities/:id/evidence`, `/accounts/3m/opportunities/:id/conversation-kit` |
+| People / profile / upload | `/accounts/3m/contacts`, `/accounts/3m/contacts/:id`, `/accounts/3m/contacts/import` |
+| Ask SalesPlay | `/accounts/3m/ask` |
+| Company brief | `/accounts/3m/overview` |
 | Signals / reader | `/accounts/3m/signals`, `/accounts/3m/signals/:id` |
 | Documents / reader | `/accounts/3m/documents`, `/accounts/3m/documents/:id` |
-| Research | `/accounts/3m/investor-deck`, `/accounts/3m/earnings-call`, `/accounts/3m/financials`, `/accounts/3m/competitors` |
+| Other research | `/accounts/3m/investor-deck`, `/accounts/3m/earnings-call`, `/accounts/3m/financials`, `/accounts/3m/competitors` |
+| Help | `/help` |
 
-AI context is encoded with `?opportunity=:id`, `?contact=:id`, or `?document=:id`. Saved conversations add `chat=:uuid` to that query (for example, `/accounts/3m/ask?opportunity=:id&chat=:uuid`); opening one restores its messages and original scope from this browser. Missing local records show an explicit notice. New conversation retains the selected scope and starts a fresh thread when a question is sent. The directory can use `?opportunity=:id` to show linked contacts. Routes support browser Back/Forward and direct loading. Queue filter and review state are not persisted in URLs. Original evidence and captured LinkedIn links remain external.
+AI queries carry one selected entity: `?opportunity=:id`, `?contact=:id`, or `?document=:id`. A saved conversation adds `chat=:uuid`. Selecting a different opportunity replaces prior entity context. Signals use account-level AI. People can be filtered with `?opportunity=:id`.
 
-## Scope and limitations
+Ordinary routes use `LocalLink`/`follow()`. AI response destinations use `ResponseLink`, a native anchor with `target="_blank"` and `rel="noopener noreferrer"`; do not attach the same-tab click interceptor to it. Recent interactions continue to use same-tab links. New tabs reload the application, so transient prototype review/bookmark state is not shared between them.
 
-The directory has 121 accounts: captured 3M plus 120 explicitly approved fictional examples. Sample previews do not contain captured research or live account data. All research counts reflect captured prototype records, not production totals. Only the New Ulm opportunity has a complete inspected battle card; other records disclose their limited captured detail. Document readers reproduce captured text, not the original PDF layout. Financial and competitor tables contain the captured subset. Missing contact information and opportunity links are not invented.
+## Data, persistence, and limits
 
-Imported contacts use `salesplay-imported-contacts-v1` in localStorage, with unique `imported-` profile IDs and session-only fallback if saving fails. Only full name is required; supplied email is validated, missing company defaults to 3M, and duplicates match name or email. Uploads do not create LinkedIn URLs or verified opportunity links, and no backend enrichment runs.
+The reference contains **seven opportunities, 22 captured people, ten signals, and three captured document readers**. Only New Ulm has the full inspected battle card. Its fixture contains three named contact relationships while its reported contact count is 22. Other opportunity counts also come from captured source labels, not complete relationship arrays. The Signals footer retains a historical source total of 429 alongside the ten captured entries. Do not treat these displayed source counts as the number of local records or current production totals. Document readers contain captured text, not original PDF layouts. The directory adds **120 fictional accounts** to 3M; they never inherit 3M research or AI context.
 
-No backend APIs are called, no production records change, and no outreach is sent. Review decisions, opportunity bookmarks, and saved contacts are in-memory and reset on reload. Conversations persist automatically in `salesplay-conversations-v1` through localStorage, newest first with a 50-conversation limit. Saved data includes messages, first-question title, scope label/query, and last-updated time. Invalid saved records are ignored, and unavailable storage keeps history in-session with a visible notice. Unsaved drafts reset on reload. Saved chat URLs work only where their browser-local records exist; history is not shared or synchronized with a backend. Account favourites use `salesplay-favourite-accounts`; recent account IDs and visit timestamps use `salesplay-recent-accounts` (up to 30), both in localStorage. Invalid saved IDs are ignored, and unavailable storage falls back to in-session state. These preferences do not synchronize with a backend. AI is explicitly scripted; unsupported requests explain that the live assistant is not connected. Supported selected context is opportunity, contact, or document; signal actions open account-wide AI. Choosing opportunity context replaces any previous selected entity.
+| State | Prototype storage | Limit / behavior |
+| --- | --- | --- |
+| Theme | `salesplay-colour-theme` | Browser-local; synchronizes across tabs |
+| Favourite accounts | `salesplay-favourite-accounts` | Browser-local account IDs |
+| Recent accounts | `salesplay-recent-accounts` | Up to 30 IDs/timestamps |
+| Recent people/opportunities | `salesplay-recent-work-v1` | Up to eight unique visits; Home combines with accounts/chats and shows three |
+| Conversations | `salesplay-conversations-v1` | Latest 50, including messages, scope, title, timestamp |
+| Imported contacts | `salesplay-imported-contacts-v1` | Browser-local `imported-` IDs; each import allows up to 500 contacts / 2 MB |
+| Review decisions, bookmarks, saved people, filters, drafts | React state | Reset on reload; not shared between tabs |
 
-## Implementation and verification
+Storage accesses have fallback handling, but this is not production persistence. Only the theme has an explicit cross-tab synchronization listener. Other stores load into each tab independently; stale tabs can overwrite newer localStorage values, especially conversation/account history. New-tab navigation preserves the original tab in the observed flow, but does not provide cross-tab data consistency. Local chat/upload URLs only work in the browser containing the record. There is no authenticated user/tenant namespace, logout cleanup, backend synchronization, or production data-retention policy. Do not adopt these storage keys as a production persistence design.
 
-`src/HomeWorkspace.jsx` owns Home and browser-local recent entity tracking, with scoped layout in `src/home.css`; `src/AccountDirectory.jsx` owns account directory pages and account preferences, `src/accounts.js` supplies the directory records, `src/accounts.css` supplies portfolio/navigation refinements, `src/main.jsx` owns the core workspace, `src/WorkspacePages.jsx` the local research and people pages, `src/GlobalBar.jsx` global commands, and `src/routing.js` browser-history routing. `src/conversations.js` owns local conversation persistence; `src/ConversationHistory.jsx` renders search and resume controls; `src/refinements.css` layers scoped AI-history and opportunity-reading styles after the existing stylesheets. Captured content lives in `src/data.js` and `src/research.json`. `src/premium.css` overrides the base `src/styles.css`; font assets and license text are in `public/fonts`.
+The UI labels its file limit as 2 MB; the actual threshold is 2 × 1024 × 1024 bytes (2 MiB), with files at that threshold accepted. CSV import requires a full name; supplied email is validated. Missing company defaults to 3M. Duplicate names/emails and non-3M companies are skipped with reasons. This account-specific validation is a **fixture constraint**, not a general production business rule. Uploaded contacts receive no fabricated relationships, external profiles, or enrichment. Opportunity search is literal client-side text matching across the captured seven records.
 
-Production build passed during the v2 implementation. Browser verification covered all local rail links, global search relevance, direct profile reload, browser history, detail-tab URLs, mobile overflow/filter bounds, and contact-to-AI context. Final visual review found no material issues and no browser console errors. Local review captures are under `.impeccable/review/v2-*`; older captures are historical. PRODUCT.md defines scope, DIRECTION.md records the approved direction, and DESIGN.md plus `.impeccable/design.json` document implemented tokens and component samples.
+AI responses are scripted; the timer in `conversations.js` stores the user prompt as the assistant message input, then `AIResponse` selects demonstration content. That is not an LLM response model. Replace the entire simulation boundary with the existing production assistant integration; never persist echoed prompts as real assistant responses.
 
-The account-directory extension passed source assertions for 121 unique IDs and seven route cases. Browser checks covered pagination, filters, empty states, favourite persistence after reload, recent visits, navigation, and mobile layouts. Independent finish review returned **SHIP**, with no material findings across all six captures; the detector reported 15 advisories attributable to intentional choices or pre-existing metadata. The final extension production build passed (Vite, 1,635 modules); source assertions and git diff whitespace checks also passed.
+## Verification and handoff status
 
-Historical account-directory review images are browser captures of the prototype, not generated artwork; the Home images below predate the opportunity-led Home:
+The latest source build passed with `npm run build`. Browser checks during development covered:
 
-- `.impeccable/review/accounts-home.jpg` and `.impeccable/review/accounts-home-mobile.jpg`
-- `.impeccable/review/accounts-directory.jpg` and `.impeccable/review/accounts-directory-mobile.jpg`
-- `.impeccable/review/accounts-navigation.jpg` and `.impeccable/review/accounts-navigation-mobile.jpg`
+- Local navigation, unique detail/tab URLs, refresh, and Back/Forward.
+- Home search/empty recovery, Accept/Return to review, uploaded people, recent-person persistence, and scoped AI draft.
+- Directory filters, pagination, favourites, recent accounts, and sample-account boundaries.
+- CSV paste import, mapping, duplicate/invalid/company skips, saved profile reload, and contact opportunity search.
+- AI launch/context, draft preservation, saved history/resume, and response links opening a separate tab without losing the original conversation/draft.
+- Desktop and 390px mobile layouts; no horizontal overflow in inspected flows.
 
+These are scoped checks, **not a production certification or a committed automated test suite**. Native file-picker automation was blocked by browser-extension permissions; its shared parsing/import path was exercised through paste. Authentication, API failures, authorization, streaming AI, real server pagination, concurrent writes, and multi-tenant behavior remain integration work.
 
-The AI-history and opportunity-reading extension passed browser checks for the top-bar launcher, preserving an existing draft, opportunity/contact/document context, automatic save, reload, history search, resume/continue, and local detail-tab navigation. Pure-function checks covered malformed and denied storage, newest-first ordering, 50-conversation retention, and scope-bearing URLs. At the tested 390 × 844 mobile viewport, the composer ended at 778px with no horizontal overflow; the checked flows reported no browser console errors. The detector returned 38 advisory type-ramp findings against inherited metadata and existing refinements. Final finish review returned **SHIP** after the launcher-hover token and conversation-kit navigation fixes were verified. A browser check confirmed the assistant’s kit action opens `/conversation-kit` with the expected conversation guidance and qualification content. The final production build passed (Vite, 1,638 modules, exit 0); git diff whitespace checks passed.
+Optional review screenshots are in `.impeccable/review/` and are gitignored. They will not be included by a normal clone. Current useful sets are `home-*`, `battlecard-*`, `ai-history-*`, `ai-new-tab-links.png`, `contact-import-*`, `contact-opportunities-*`, `decisions-*`, `overview-*`, and `signals-*`. Share selected images separately if required; do not ship them as application assets. Earlier `v2-*` and `accounts-home*` captures are historical.
 
-Extension review evidence is browser-captured prototype output, not shipping artwork:
+Next: follow [INTEGRATION.md](INTEGRATION.md) to port this experience into the main repo without replacing its production foundations.
 
-- `.impeccable/review/battlecard-desktop.png` and `.impeccable/review/battlecard-mobile.png`
-- `.impeccable/review/ai-history-desktop.png` and `.impeccable/review/ai-history-mobile.png`
-- `.impeccable/review/ai-conversation-mobile.png`
+### Documentation audit — 4 October 2026
 
+Rechecked README, CLAUDE, and INTEGRATION against the current source. Ad hoc Node assertions passed for fixture counts, every declared top-level route, upload-route precedence, evidence-tab parsing, CSV delimiter handling and the 500-row boundary, malformed conversation storage, and scope-bearing conversation URLs. These assertions were run during the audit; they are not a committed regression suite. Documentation links and whitespace checks also passed. Browser/build results listed above are earlier development evidence, not newly rerun in this documentation audit.
 
-The people/research extension adds `src/PeopleWorkspace.jsx`, `src/ContactImport.jsx`, and `src/contactImportData.js`; `src/people-research.css` supplies scoped people/research styles. Opportunity detail now offers first-class Accept/Reject controls in a sticky desktop/tablet action row (in normal flow on mobile), retaining in-memory decisions and Return to review. Company brief uses a more compact reading layout; Signals use consistent rows and explicit dates such as 23 Sept 2026.
-
-Verification: production build and pure parser/routing checks passed. Browser paste import reviewed one valid and three skipped rows, imported the valid contact, and verified persistence and profile reopening. Desktop and 390px mobile captures cover import, contact opportunities, decisions, overview, and signals under `.impeccable/review/` (`contact-import-*`, `contact-opportunities-*`, `decisions-*`, `overview-compact-desktop.png`, `overview-mobile.png`, `signals-icons-desktop.png`, and `signals-mobile.png`). Native file-picker automation remains unverified because browser-extension permission blocked that check. The design detector's type-step findings are advisory; the intentional scoped typography is recorded in DESIGN.md. Captures are review evidence of the local prototype, not shipping artwork.
-
-Independent finish review inspected all ten extension captures and passed the scoped local preview with no material findings. Browser checks also verified Reject and Return to review.
-
-
-The opportunity-led Home keeps the established fonts, themes, command bar, navigation, and flat reading surfaces. Its top bar defaults to Ask SalesPlay with explicit 3M context; Find accounts and Command/Ctrl+K retain portfolio account search. Help me prioritise opens the 3M AI workspace with a draft question. Home links use the existing opportunity, person, upload, signal, account, and saved-conversation routes. Sample accounts never inherit 3M research or AI context.
-
-Continue your work combines recent people/opportunities, saved conversations, and recent accounts by timestamp and shows the latest three. `salesplay-recent-work-v1` stores up to eight unique opened person/opportunity records in this browser, including title, local route, kind, and time. Malformed records are filtered on load; storage failures leave current-session state. This adds no backend persistence. Home review decisions share the account queue's in-memory state and reset on reload; Home status/search controls reset when Home remounts. Your accounts shows up to four unique favourites, recent accounts, and the 3M fallback. People links represent captured relationships; uploads do not acquire verified links or match scores.
-
-Desktop Home pairs the opportunity queue with supporting people, recent work, and AI; below 850px the main columns stack, and below 540px the supporting sections become one column. Browser verification covered Accept/Return to review, search/no-results/reset, uploaded-tab profile navigation, recent-person persistence, AI draft/context, and account search. The production build passed. Independent review returned **SHIP** with no material findings across the scoped desktop/mobile captures and code. Detector type-step and colour findings remain advisory. Current browser review evidence: `.impeccable/review/home-desktop.png`, `.impeccable/review/home-mobile.png`, and `.impeccable/review/home-preview.png`. These are prototype captures, not shipping artwork. The page behavior is recorded in `.impeccable/briefs/home-workspace.md`; DESIGN.md and its sidecar remain the established system authority.
-
-Ask SalesPlay response links open opportunities, linked people, documents, conversation kits, and external sources in a new tab. Each includes a new-tab icon, tooltip, and screen-reader label. Normal navigation and recent conversation links remain in the same tab.
+The main SalesPlay repository and its API definitions were not inspected. INTEGRATION.md therefore provides a migration process and verification requirements, not a verified compatibility assessment.

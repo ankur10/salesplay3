@@ -1,75 +1,87 @@
-# CLAUDE.md
+# Claude Code instructions — SalesPlay UI reference
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## Identify your working context first
 
-## What this is
+This repository is a **frontend-only design prototype** for a SalesPlay redesign. It is not the main application. Read [README.md](README.md) for the experience/file map and [INTEGRATION.md](INTEGRATION.md) for production migration requirements.
 
-SalesPlay account workspace: a frontend-only React 19 + Vite prototype of a sales research tool, showing the account 3M Company from the seller perspective of LANXESS Aktiengesellschaft. There is no backend, authentication, live AI, or outreach. Plain JavaScript/JSX, no TypeScript.
+- **Editing this reference:** keep its frontend-only behavior, fixture disclosures, local routes, and existing interaction design unless the user requests a change. Do not connect live APIs or change production data as a side effect.
+- **Porting into the main SalesPlay repo:** follow that repository's instructions and architecture. Reuse this design and behavior through its existing APIs/auth/router. The reference's “no API calls” implementation is a prototype constraint, not a prohibition on using existing APIs during an explicitly requested production integration. Backend contract changes and new endpoints are outside the approved scope.
+- Do not copy this file over the main repo's root CLAUDE.md. Merge relevant design/integration guidance into its appropriate documentation while preserving its existing instructions.
 
-## Commands
+## Commands and verification
 
 ```sh
-npm install
-npm run dev      # Vite on 127.0.0.1
-npm run build    # outputs dist/
-npm run preview  # serves dist/
+npm ci
+npm run dev
+npm run build
+npm run preview
 ```
 
-There is no test runner, linter, or formatter configured. Verification is `npm run build` plus browser checks (rail links stay local, direct load/refresh of deep links, Back/Forward, detail-tab URLs, mobile overflow at 390px wide, contact-to-AI context). Review screenshots go in `.impeccable/review/` (gitignored).
+React 19 + Vite 6, plain JS/JSX, Lucide icons, plain CSS. Use a compatible Node version; no Node version is pinned here. `package-lock.json` is authoritative. No test runner, linter, or formatter is configured. Do not claim these checks ran if they do not exist.
 
-## Architecture
+For reference changes, run the production build when source changes warrant it and check affected behavior in the browser. For visual changes, inspect desktop and mobile with real long content. For production integration, use the main repo's tests/typecheck/lint/build and the acceptance matrix in INTEGRATION.md. Documentation-only changes need link/path/consistency checks, not a redundant frontend build.
 
-### Routing (`src/routing.js`)
+## Current ownership
 
-Hand-rolled History API router, no library. `paths` maps view keys to URLs, `parseRoute(url)` returns `{view, id, tab, params, path}`, and `useRoute()` returns `[route, go]`. Internal links must use `LocalLink` (exported from `src/WorkspacePages.jsx`) or `follow()` so that plain clicks call `go` while modified clicks still open new tabs.
+- `src/main.jsx`: App state; shell; opportunity queue/detail; AI workspace; review mutations; selected-context handoff; scripted `AIResponse`; `ResponseLink`.
+- `src/HomeWorkspace.jsx` / `src/home.css`: opportunity-led Home and recent person/opportunity tracking. Home is no longer rendered by AccountDirectory.
+- `src/AccountDirectory.jsx`: account directory, recent/favourites/sample views; account preferences.
+- `src/PeopleWorkspace.jsx`: people directory/profiles, opportunity relationships and search.
+- `src/ContactImport.jsx` + `src/contactImportData.js`: CSV/paste flow and parsing/validation.
+- `src/WorkspacePages.jsx`: research pages, delegation to people/import, shared links/avatar/people panel, captured contacts/documents exports.
+- `src/GlobalBar.jsx`: contextual Ask SalesPlay launcher, search and Cmd/Ctrl+K, themes.
+- `src/conversations.js`: browser-local history, scope URLs, simulated reply timer. `ConversationHistory.jsx`: history search/groups/resume.
+- `src/routing.js`: History API router; paths/route parser/page names and ordinary internal link handling.
+- `src/data.js`, `src/research.json`: captured 3M data. `src/accounts.js`: 3M plus 120 fictional sample accounts.
 
-Adding a page means touching `paths`, `pageNames` (drives `document.title`), `parseRoute` if it has an `:id`, and the view switch in either `main.jsx` or `WorkspacePages.jsx`. Existing URLs are stable even where display labels changed (e.g. `/contacts` is labelled "People", `/documents` "Research library", `/overview` "Company brief", `/signals` "Account activity"). The full route table is in README.md. Deployment needs an SPA fallback to `index.html`.
+## Preserve these decisions
 
-AI context lives in the query string on `/accounts/3m/ask`: `?opportunity=:id`, `?contact=:id`, or `?document=:id`. Selecting an opportunity replaces any other selected entity. Signals have no selected-entity context; they open account-wide AI.
+1. Home prioritizes opportunities, with supporting people, recent work, signals, and accounts. Avoid decorative metric dashboards.
+2. People and their individual opportunity context remain first-class. Do not claim search results are verified relationships.
+3. Ask SalesPlay is a dedicated workspace with prominent top-bar entry, account and optional entity scope, and resumable history. No permanent full-height AI pane across all pages.
+4. Links **inside AI responses** to details and external sources open a new tab. Use `ResponseLink` or an equivalent native anchor with `target="_blank"`, `rel="noopener noreferrer"`, an icon, tooltip, and accessible “opens in a new tab” text. Do not route these through `LocalLink`/`follow()` or `go()`, which intercept plain clicks. The original conversation/draft must remain intact.
+5. Normal navigation, breadcrumbs, and recent-conversation links stay in the same tab. `LocalLink` preserves normal modified-click behavior. Do not globally change anchor targets or add a “Back to conversation” mechanism.
+6. Prominent Accept/Reject; reversible preview status. Desktop/tablet collapse retains the icon rail; mobile uses overlay navigation. Account Research expands by default; Research Library starts collapsed.
+7. Current display labels include People, Signals, Company brief, and Research library. Stable prototype paths remain `/contacts`, `/signals`, `/overview`, and `/documents`.
+8. Use complete source content, readable titles, progressive disclosure, clear evidence labels, and unambiguous dates. Preserve the SalesPlay text signature; do not restore the discarded custom logo.
 
-### Component ownership
+## Routing and context
 
-- `src/main.jsx` — the `App` component holds nearly all state and renders the shell (sidebar rail, toast, contact drawer), the opportunity queue and detail tabs, and the AI workspace including the scripted `AIResponse`.
-- `src/WorkspacePages.jsx` — people directory/profiles, signals, documents, overview, financials, competitors. Also exports the shared `contacts`, `documents`, `LocalLink`, `Avatar`, `PeoplePanel`.
-- `src/GlobalBar.jsx` — navy top bar: global search across opportunities, people, documents, signals (Cmd/Ctrl+K), Ask SalesPlay, `ThemePicker`.
-- `src/AccountDirectory.jsx` — portfolio views (`home`, `recent`, `favourites`, `accounts`, `accountPreview`; listed in `portfolioViews` in `src/accounts.js`). These swap the sidebar from the account rail to a workspace rail.
+Prototype `/` redirects to `/home`. Route definitions and titles live in `routing.js`. When adding a route, update parsing, title labels, rendering, and direct-load behavior. Keep `/contacts/import` distinct from `/contacts/:id`. Deployments need SPA fallback.
 
-### Data
+AI supports one query-selected entity: `opportunity`, `contact`, or `document`, plus optional `chat` for a saved local conversation. Selecting opportunity context replaces another selected entity. Signals open account-scoped AI; selected signal context and cross-account AI are not implemented. Home clearly scopes AI to 3M.
 
-All content is static and captured from the real product on 2026-10-04:
+Production must replace `/3m` and seller literals with existing route/context data. New-tab detail pages must work on direct authenticated load without relying on opener memory.
 
-- `src/data.js` — seven opportunities and the original three people. Only the New Ulm opportunity has the full battle card (`evidenceItems`, `next`, etc.); code must tolerate those fields being absent on the others.
-- `src/research.json` — `contacts`, `signals`, `documents`, `financials`, `competitors`.
-- `contacts` in `WorkspacePages.jsx` merges `research.contacts` with `data.js` people by name (22 unique); ids for merged people come from `slug(name)`.
-- `src/accounts.js` — 3M plus generated `sample-N-M` accounts that exist only to show directory scale. They are flagged `sample: true`, open an "unavailable research" preview, and must not inherit 3M content.
+## Data and persistence truth
 
-### State and persistence
+Seven captured opportunities, 22 captured people, ten signals, three document text readers. Only New Ulm has the complete battle card. New Ulm contains only three named relationship records despite displaying a source count of 22 contacts; the Signals footer also retains a historical source total. Displayed source totals are not local relationship/record counts. Optional evidence/questions/script fields must be handled when missing. Samples are labelled, and cannot inherit 3M research. Name-based fixture merging is not a production identity model.
 
-Review decisions, bookmarks, saved contacts, queue filters, and chat history are in-memory `useState` in `App` and reset on reload by design. Only three things use `localStorage` (always wrapped in try/catch): `salesplay-colour-theme`, `salesplay-favourite-accounts`, `salesplay-recent-accounts`.
+Persistent prototype state uses localStorage with fallback handling:
 
-AI replies are scripted on a timer in `send()`; unsupported prompts must say the live assistant is not connected rather than fabricate an answer.
+- `salesplay-colour-theme`: theme; the only explicit cross-tab storage listener.
+- `salesplay-favourite-accounts`: favourite IDs.
+- `salesplay-recent-accounts`: up to 30 account visits.
+- `salesplay-recent-work-v1`: up to eight person/opportunity visits.
+- `salesplay-conversations-v1`: latest 50 conversations and scopes.
+- `salesplay-imported-contacts-v1`: local imported contact records.
 
-### Styling
+Review status, bookmarks, saved contacts, filters, and unsent drafts reset on reload. New tabs have independent transient state. Local chat/import URLs require their saved record in that browser. No user/tenant scoping, auth, server sync, or production retention is implemented. Non-theme stores do not synchronize React state between open tabs and stale snapshots may overwrite newer localStorage data; new-tab support does not establish cross-tab consistency.
 
-Plain CSS imported in `main.jsx` in cascade order: `styles.css` (base) → `premium.css` (replacement visual layer, `@font-face`) → `themes.css` (palette tokens per `data-theme`) → `workspace.css` → `accounts.css`. Later files override earlier ones, so put changes in the layer that owns the rule rather than editing the base.
+CSV supports file/paste, headers/mapping, quoted values, comma/tab/semicolon separation, up to 500 rows / 2 MiB per import (the UI says 2 MB), required name, optional email validation, and duplicate/company skips. Missing company defaults to 3M; other-company rejection is fixture-specific. Do not treat duplicate-by-name as a universal production rule.
 
-Themes are `precision`, `advisory` (default), `mineral`, set as `data-theme` on `<html>`. `public/theme.js` applies the saved theme before first paint and must stay in sync with the `themes` list in `src/ThemePicker.jsx` (ids and header colours are duplicated in both) and the selectors in `themes.css`.
+`conversations.js` stores the prompt as the simulated assistant input; `AIResponse` branches on keywords to render captured content. This is deliberately **not live AI**. When porting, remove that simulation and use the existing assistant's message schema and persistence. Never present these echoed prompts as real assistant messages.
 
-Fonts (Source Sans 3, Source Serif 4, JetBrains Mono) are served locally from `public/fonts` with their license text; do not add remote font loads.
+## Styling and refactoring
 
-### Code style
+Consult DESIGN.md and the current rendered CSS together. Main cascade: styles → premium → themes → workspace → accounts → refinements → people-research. Home imports home.css. Preserve current computed appearance; earlier style layers and documentation include historical values.
 
-Source files are written densely: long single-line functions and JSX, minimal whitespace, one-space indentation. Match that when editing rather than reformatting, which would make diffs unreadable.
+Reuse semantic theme tokens. Keep Precision, Advisory (default), and Mineral IDs aligned in `ThemePicker.jsx`, `public/theme.js`, and `themes.css`. Fonts are local; retain `public/fonts/FONT-LICENSES.txt`. No remote font dependency is needed.
 
-## Product constraints
+For small reference edits, keep diffs scoped rather than reformatting the whole dense JSX codebase. For production porting, use the target's conventions and types; extract reusable primitives and separate data/presentation as needed. Do not copy main.jsx wholesale or reproduce circular shared exports from WorkspacePages/PeopleWorkspace. Do not install this prototype's package versions or CSS globals over the main app by default.
 
-From PRODUCT.md and DIRECTION.md, which are the source of truth for scope:
+## Handoff discipline
 
-- Preserve captured content verbatim. Do not invent contact details, LinkedIn/opportunity links, research sections, or AI capabilities; missing data is shown explicitly as not captured.
-- Counts describe the captured prototype, not production totals, and the UI says so.
-- Every account rail destination renders locally with its own URL. External links are limited to original evidence sources and captured LinkedIn URLs.
-- Never call backend APIs or the live SalesPlay site (`liveBase` in `data.js` is reference only).
+Read INTEGRATION.md before production work. Discover actual APIs; do not fabricate endpoint names or change their contracts. Preserve production authentication, permissions, account/seller context and error semantics. Report unsupported capabilities explicitly and continue independent work.
 
-## Design docs
-
-`DESIGN.md` (with `.impeccable/design.json`) documents the implemented tokens, components, and do/don't rules; consult it before visual changes and update it after. `.impeccable/briefs/` holds direction contracts for individual features. These files, and the `<!-- impeccable:product-schema -->` marker in PRODUCT.md, are maintained by the Impeccable design skill.
+Keep README and relevant product docs aligned after behavior changes. `.impeccable` briefs and optional screenshots are reference material, not runtime dependencies; review images are gitignored. Earlier verification claims describe scoped prototype checks, not production readiness. File-picker automation was not completed here; paste import was checked. Do not claim unrun checks, merge, deploy, or publish without authorization.
