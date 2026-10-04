@@ -1,0 +1,852 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T13:55:24.039357+00:00",
+  "title": "Design System: SalesPlay",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Accent",
+        "tonalRamp": [
+          "oklch(15% 0.16489 259.01)",
+          "oklch(26% 0.16489 259.01)",
+          "oklch(38% 0.16489 259.01)",
+          "oklch(49% 0.16489 259.01)",
+          "oklch(61% 0.16489 259.01)",
+          "oklch(72% 0.16489 259.01)",
+          "oklch(84% 0.16489 259.01)",
+          "oklch(95% 0.16489 259.01)"
+        ]
+      },
+      "button-primary": {
+        "role": "primary",
+        "displayName": "Button Primary",
+        "tonalRamp": [
+          "oklch(15% 0.15534 256.67)",
+          "oklch(26% 0.15534 256.67)",
+          "oklch(38% 0.15534 256.67)",
+          "oklch(49% 0.15534 256.67)",
+          "oklch(61% 0.15534 256.67)",
+          "oklch(72% 0.15534 256.67)",
+          "oklch(84% 0.15534 256.67)",
+          "oklch(95% 0.15534 256.67)"
+        ]
+      },
+      "button-hover": {
+        "role": "primary",
+        "displayName": "Button Hover",
+        "tonalRamp": [
+          "oklch(15% 0.13522 257.29)",
+          "oklch(26% 0.13522 257.29)",
+          "oklch(38% 0.13522 257.29)",
+          "oklch(49% 0.13522 257.29)",
+          "oklch(61% 0.13522 257.29)",
+          "oklch(72% 0.13522 257.29)",
+          "oklch(84% 0.13522 257.29)",
+          "oklch(95% 0.13522 257.29)"
+        ]
+      },
+      "navy": {
+        "role": "primary",
+        "displayName": "Navy",
+        "tonalRamp": [
+          "oklch(15% 0.05058 236.29)",
+          "oklch(26% 0.05058 236.29)",
+          "oklch(38% 0.05058 236.29)",
+          "oklch(49% 0.05058 236.29)",
+          "oklch(61% 0.05058 236.29)",
+          "oklch(72% 0.05058 236.29)",
+          "oklch(84% 0.05058 236.29)",
+          "oklch(95% 0.05058 236.29)"
+        ]
+      },
+      "teal": {
+        "role": "primary",
+        "displayName": "Teal",
+        "tonalRamp": [
+          "oklch(15% 0.08031 199.42)",
+          "oklch(26% 0.08031 199.42)",
+          "oklch(38% 0.08031 199.42)",
+          "oklch(49% 0.08031 199.42)",
+          "oklch(61% 0.08031 199.42)",
+          "oklch(72% 0.08031 199.42)",
+          "oklch(84% 0.08031 199.42)",
+          "oklch(95% 0.08031 199.42)"
+        ]
+      },
+      "mint": {
+        "role": "primary",
+        "displayName": "Mint",
+        "tonalRamp": [
+          "oklch(15% 0.06341 172.38)",
+          "oklch(26% 0.06341 172.38)",
+          "oklch(38% 0.06341 172.38)",
+          "oklch(49% 0.06341 172.38)",
+          "oklch(61% 0.06341 172.38)",
+          "oklch(72% 0.06341 172.38)",
+          "oklch(84% 0.06341 172.38)",
+          "oklch(95% 0.06341 172.38)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.04251 237.48)",
+          "oklch(26% 0.04251 237.48)",
+          "oklch(38% 0.04251 237.48)",
+          "oklch(49% 0.04251 237.48)",
+          "oklch(61% 0.04251 237.48)",
+          "oklch(72% 0.04251 237.48)",
+          "oklch(84% 0.04251 237.48)",
+          "oklch(95% 0.04251 237.48)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.03261 235.47)",
+          "oklch(26% 0.03261 235.47)",
+          "oklch(38% 0.03261 235.47)",
+          "oklch(49% 0.03261 235.47)",
+          "oklch(61% 0.03261 235.47)",
+          "oklch(72% 0.03261 235.47)",
+          "oklch(84% 0.03261 235.47)",
+          "oklch(95% 0.03261 235.47)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "tonalRamp": [
+          "oklch(15% 0.00347 219.53)",
+          "oklch(26% 0.00347 219.53)",
+          "oklch(38% 0.00347 219.53)",
+          "oklch(49% 0.00347 219.53)",
+          "oklch(61% 0.00347 219.53)",
+          "oklch(72% 0.00347 219.53)",
+          "oklch(84% 0.00347 219.53)",
+          "oklch(95% 0.00347 219.53)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15% 0.00000 89.88)",
+          "oklch(26% 0.00000 89.88)",
+          "oklch(38% 0.00000 89.88)",
+          "oklch(49% 0.00000 89.88)",
+          "oklch(61% 0.00000 89.88)",
+          "oklch(72% 0.00000 89.88)",
+          "oklch(84% 0.00000 89.88)",
+          "oklch(95% 0.00000 89.88)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0.01209 223.53)",
+          "oklch(26% 0.01209 223.53)",
+          "oklch(38% 0.01209 223.53)",
+          "oklch(49% 0.01209 223.53)",
+          "oklch(61% 0.01209 223.53)",
+          "oklch(72% 0.01209 223.53)",
+          "oklch(84% 0.01209 223.53)",
+          "oklch(95% 0.01209 223.53)"
+        ]
+      },
+      "tint": {
+        "role": "primary",
+        "displayName": "Tint",
+        "tonalRamp": [
+          "oklch(15% 0.01540 257.20)",
+          "oklch(26% 0.01540 257.20)",
+          "oklch(38% 0.01540 257.20)",
+          "oklch(49% 0.01540 257.20)",
+          "oklch(61% 0.01540 257.20)",
+          "oklch(72% 0.01540 257.20)",
+          "oklch(84% 0.01540 257.20)",
+          "oklch(95% 0.01540 257.20)"
+        ]
+      },
+      "navigation-active": {
+        "role": "primary",
+        "displayName": "Navigation Active",
+        "tonalRamp": [
+          "oklch(15% 0.01724 248.01)",
+          "oklch(26% 0.01724 248.01)",
+          "oklch(38% 0.01724 248.01)",
+          "oklch(49% 0.01724 248.01)",
+          "oklch(61% 0.01724 248.01)",
+          "oklch(72% 0.01724 248.01)",
+          "oklch(84% 0.01724 248.01)",
+          "oklch(95% 0.01724 248.01)"
+        ]
+      },
+      "navigation-text": {
+        "role": "primary",
+        "displayName": "Navigation Text",
+        "tonalRamp": [
+          "oklch(15% 0.12878 256.19)",
+          "oklch(26% 0.12878 256.19)",
+          "oklch(38% 0.12878 256.19)",
+          "oklch(49% 0.12878 256.19)",
+          "oklch(61% 0.12878 256.19)",
+          "oklch(72% 0.12878 256.19)",
+          "oklch(84% 0.12878 256.19)",
+          "oklch(95% 0.12878 256.19)"
+        ]
+      },
+      "focus": {
+        "role": "primary",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15% 0.15342 253.34)",
+          "oklch(26% 0.15342 253.34)",
+          "oklch(38% 0.15342 253.34)",
+          "oklch(49% 0.15342 253.34)",
+          "oklch(61% 0.15342 253.34)",
+          "oklch(72% 0.15342 253.34)",
+          "oklch(84% 0.15342 253.34)",
+          "oklch(95% 0.15342 253.34)"
+        ]
+      },
+      "evidence-medium": {
+        "role": "neutral",
+        "displayName": "Evidence Medium",
+        "tonalRamp": [
+          "oklch(15% 0.07778 173.01)",
+          "oklch(26% 0.07778 173.01)",
+          "oklch(38% 0.07778 173.01)",
+          "oklch(49% 0.07778 173.01)",
+          "oklch(61% 0.07778 173.01)",
+          "oklch(72% 0.07778 173.01)",
+          "oklch(84% 0.07778 173.01)",
+          "oklch(95% 0.07778 173.01)"
+        ]
+      },
+      "evidence-medium-surface": {
+        "role": "neutral",
+        "displayName": "Evidence Medium Surface",
+        "tonalRamp": [
+          "oklch(15% 0.01570 160.62)",
+          "oklch(26% 0.01570 160.62)",
+          "oklch(38% 0.01570 160.62)",
+          "oklch(49% 0.01570 160.62)",
+          "oklch(61% 0.01570 160.62)",
+          "oklch(72% 0.01570 160.62)",
+          "oklch(84% 0.01570 160.62)",
+          "oklch(95% 0.01570 160.62)"
+        ]
+      },
+      "evidence-low": {
+        "role": "neutral",
+        "displayName": "Evidence Low",
+        "tonalRamp": [
+          "oklch(15% 0.09207 79.83)",
+          "oklch(26% 0.09207 79.83)",
+          "oklch(38% 0.09207 79.83)",
+          "oklch(49% 0.09207 79.83)",
+          "oklch(61% 0.09207 79.83)",
+          "oklch(72% 0.09207 79.83)",
+          "oklch(84% 0.09207 79.83)",
+          "oklch(95% 0.09207 79.83)"
+        ]
+      },
+      "evidence-low-surface": {
+        "role": "neutral",
+        "displayName": "Evidence Low Surface",
+        "tonalRamp": [
+          "oklch(15% 0.02926 87.54)",
+          "oklch(26% 0.02926 87.54)",
+          "oklch(38% 0.02926 87.54)",
+          "oklch(49% 0.02926 87.54)",
+          "oklch(61% 0.02926 87.54)",
+          "oklch(72% 0.02926 87.54)",
+          "oklch(84% 0.02926 87.54)",
+          "oklch(95% 0.02926 87.54)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page headings."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Research and section headings."
+      },
+      "opportunity-title": {
+        "displayName": "Opportunity Title",
+        "purpose": "Complete opportunity titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Reading copy and descriptions."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "Compact actions."
+      },
+      "table-number": {
+        "displayName": "Table Number",
+        "purpose": "Aligned financial values."
+      }
+    },
+    "shadows": [
+      {
+        "name": "search-results",
+        "value": "0 14px 35px #092b3d25",
+        "purpose": "Global search foreground."
+      },
+      {
+        "name": "people-desk",
+        "value": "0 3px 14px #113c4e06",
+        "purpose": "Subtle relationship panel depth."
+      },
+      {
+        "name": "composer",
+        "value": "0 5px 16px #092b3d08",
+        "purpose": "Subtle input enclosure depth."
+      },
+      {
+        "name": "filter",
+        "value": "0 8px 25px #28344a1a",
+        "purpose": "Inherited filter popover."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "150ms ease",
+        "purpose": "Color and border state changes; disabled under reduced motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "mobile-max",
+        "value": "760px"
+      },
+      {
+        "name": "overlay-rail-max",
+        "value": "1050px"
+      },
+      {
+        "name": "compact-desktop-max",
+        "value": "1350px"
+      },
+      {
+        "name": "wide-min",
+        "value": "1700px"
+      }
+    ],
+    "colourThemes": {
+      "default": "advisory",
+      "source": "src/themes.css",
+      "storageKey": "salesplay-colour-theme",
+      "inheritance": "Precision and Mineral inherit unspecified roles from Advisory. Theme roles override the base palette and samples.",
+      "palettes": {
+        "advisory": {
+          "canvas": "#f7f8f9",
+          "surface": "#fff",
+          "sunken": "#edf0f2",
+          "nav": "#fff",
+          "ink": "#051c2c",
+          "muted": "#52616c",
+          "line": "#d9dfe3",
+          "control-border": "#7c8a95",
+          "accent": "#164caa",
+          "tint": "#edf2f8",
+          "selected": "#dee8f4",
+          "selected-border": "#829cbd",
+          "primary": "#051c2c",
+          "primary-hover": "#183a52",
+          "feature": "#051c2c",
+          "feature-muted": "#cadbe6",
+          "feature-soft": "#e8f0f4",
+          "feature-ink": "#1b4d65",
+          "feature-line": "#94b0bf",
+          "navy": "#051c2c",
+          "header-control": "#203c55",
+          "header-muted": "#c3d0df",
+          "header-border": "#849fb5",
+          "header-focus": "#b2d0ff",
+          "mint": "#c7e4f3",
+          "focus": "#2251ff",
+          "green": "#23654e",
+          "green-light": "#edf5ef",
+          "amber": "#79551b",
+          "amber-light": "#f8f2e7"
+        },
+        "precision": {
+          "canvas": "#f7f8fa",
+          "sunken": "#edf1f6",
+          "ink": "#122236",
+          "muted": "#526176",
+          "line": "#d5dde7",
+          "control-border": "#78879b",
+          "accent": "#204eae",
+          "tint": "#edf2fc",
+          "selected": "#dce7f9",
+          "selected-border": "#7b9cc7",
+          "primary": "#204eae",
+          "primary-hover": "#163e91",
+          "feature": "#122b49",
+          "feature-muted": "#cfdded",
+          "feature-soft": "#e8effb",
+          "feature-ink": "#204eae",
+          "feature-line": "#95afd7",
+          "navy": "#122b49",
+          "mint": "#c5d9ff",
+          "focus": "#204eae"
+        },
+        "mineral": {
+          "canvas": "#f5f7f9",
+          "sunken": "#edf1f5",
+          "nav": "#f9fafb",
+          "ink": "#17212b",
+          "muted": "#52606d",
+          "line": "#d7dde3",
+          "control-border": "#7c8b9d",
+          "accent": "#234dc0",
+          "tint": "#e5edf8",
+          "selected": "#dbe6f6",
+          "selected-border": "#8fa9cb",
+          "primary": "#17212b",
+          "primary-hover": "#294d75",
+          "feature": "#22394e",
+          "feature-muted": "#d0dce8",
+          "feature-soft": "#e8eef3",
+          "feature-ink": "#345671",
+          "feature-line": "#a1b4c7",
+          "navy": "#172b3a",
+          "mint": "#d0deeb",
+          "focus": "#234dc0"
+        }
+      }
+    },
+    "workspaceRefinement": {
+      "source": "src/workspace.css",
+      "typeScale": {
+        "metadata": "13px",
+        "control": "14px",
+        "navigation": "15px",
+        "body": "16px",
+        "item": "18px",
+        "section": "24px",
+        "page": "32px",
+        "mobilePage": "28px"
+      },
+      "logo": "SalesPlay text signature in src/GlobalBar.jsx; experimental vector logo and favicon removed",
+      "nomenclature": {
+        "contacts": "People",
+        "signals": "Signals",
+        "overview": "Company brief",
+        "documents": "Research library",
+        "competitors": "Competition"
+      },
+      "assistantIdentity": "Ask SalesPlay; Alfred remains exploratory",
+      "removedRedundancy": [
+        "Duplicate AI banner",
+        "Repeated view opportunity actions",
+        "Per-person AI links in sidebar; retained in directory/profile"
+      ]
+    },
+    "accountDirectory": {
+      "sources": [
+        "src/AccountDirectory.jsx",
+        "src/accounts.js",
+        "src/accounts.css",
+        "src/main.jsx",
+        "src/GlobalBar.jsx",
+        "src/routing.js"
+      ],
+      "scope": "Ordinary extension of the established world; existing token primitives and inherited component samples preserved.",
+      "landing": "/home",
+      "routes": [
+        "/accounts",
+        "/accounts/recent",
+        "/accounts/favourites",
+        "/accounts/sample-<group>-<sector>"
+      ],
+      "records": {
+        "total": 121,
+        "captured": 1,
+        "fictional": 120,
+        "authorization": "Fictional demonstration records explicitly approved by the user; sample previews disclose unavailable research."
+      },
+      "navigation": {
+        "researchDefault": "expanded",
+        "libraryDefault": "collapsed",
+        "collapse": "rail footer",
+        "reopen": "breadcrumb row",
+        "scrolling": "Scrollbar chrome hidden; overflow-y:auto retained. Measured default desktop rail has no overflow.",
+        "breadcrumbs": {
+          "portfolio": "Home > section",
+          "account": "All Accounts > 3M Company > section"
+        }
+      },
+      "searchWidths": {
+        "globalDesktopMax": "560px",
+        "opportunityDesktopBasis": "360px",
+        "localDesktopMax": "440px",
+        "directoryDesktopMax": "390px",
+        "mobile": "available width"
+      },
+      "responsive": "At 1050px and below last-opened columns hide. At 760px and below Home stacks, directory rows reflow, and search fills available width.",
+      "preferences": {
+        "favourites": "salesplay-favourite-accounts",
+        "recent": "salesplay-recent-accounts",
+        "recentLimit": 30,
+        "storage": "localStorage with in-session fallback; no backend"
+      },
+      "review": {
+        "verdict": "SHIP",
+        "materialFindings": 0,
+        "sourceAssertions": "121 unique IDs and seven route cases passed",
+        "browserChecks": [
+          "pagination",
+          "filters",
+          "empty states",
+          "favourites after reload",
+          "recent visits",
+          "navigation",
+          "mobile"
+        ],
+        "detector": "15 advisories: intentional choices or pre-existing metadata",
+        "build": "Final extension production build passed: Vite, 1,635 modules. Source assertions and git diff whitespace checks passed.",
+        "captures": [
+          {
+            "path": ".impeccable/review/accounts-home.jpg",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping UI asset."
+          },
+          {
+            "path": ".impeccable/review/accounts-home-mobile.jpg",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping UI asset."
+          },
+          {
+            "path": ".impeccable/review/accounts-directory.jpg",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping UI asset."
+          },
+          {
+            "path": ".impeccable/review/accounts-directory-mobile.jpg",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping UI asset."
+          },
+          {
+            "path": ".impeccable/review/accounts-navigation.jpg",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping UI asset."
+          },
+          {
+            "path": ".impeccable/review/accounts-navigation-mobile.jpg",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping UI asset."
+          }
+        ]
+      }
+    },
+    "aiHistory": {
+      "sources": [
+        "src/conversations.js",
+        "src/ConversationHistory.jsx",
+        "src/GlobalBar.jsx",
+        "src/main.jsx",
+        "src/refinements.css"
+      ],
+      "scope": "Ordinary extension; base tokens and unrelated component samples preserved.",
+      "launcher": "Opens the dedicated workspace with current opportunity, person, or document; inside AI focuses the composer without clearing draft.",
+      "history": {
+        "storageKey": "salesplay-conversations-v1",
+        "limit": 50,
+        "order": "Most recently updated first",
+        "groups": [
+          "Today",
+          "Yesterday",
+          "Earlier"
+        ],
+        "rowContent": [
+          "First question",
+          "Original scope",
+          "Question count",
+          "Last-updated time"
+        ],
+        "search": "Title, scope label, and message text",
+        "resume": "chat query parameter plus saved opportunity/contact/document scope",
+        "fallback": "Malformed records ignored; unavailable storage uses session state and shows notice; missing local chat shows notice."
+      },
+      "layout": {
+        "desktop": "Conversation beside 310px history panel, narrowing to 280px at 1200px",
+        "narrow": "At 900px and below header history toggle replaces conversation area; resume returns to conversation",
+        "context": "Compact expandable working-context summary; selected context also remains in composer",
+        "scroll": "Contained transcript; composer does not shrink"
+      },
+      "limitations": "Scripted responses; no backend, cross-browser sync, or persisted unsaved drafts.",
+      "review": {
+        "verdict": "SHIP",
+        "materialFindings": 0,
+        "resolvedControls": [
+          "Launcher hover uses defined header-control theme role",
+          "Assistant conversation-kit action navigates to /conversation-kit"
+        ],
+        "browserChecks": [
+          "Launcher and preserved draft",
+          "Opportunity/contact/document context",
+          "Automatic save and reload",
+          "History search and resume/continue",
+          "Detail-tab URLs and conversation-kit action",
+          "Mobile composer bounds and no horizontal overflow"
+        ],
+        "pureChecks": [
+          "Malformed and denied storage",
+          "Retention of 50",
+          "Newest-first ordering",
+          "Scope URLs"
+        ],
+        "consoleErrors": [],
+        "detector": "38 advisories: inherited type-ramp metadata versus existing refinements",
+        "build": "Final Vite production build passed: 1,638 modules; exit 0. Git diff whitespace checks passed.",
+        "captures": [
+          {
+            "path": ".impeccable/review/battlecard-desktop.png",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping asset."
+          },
+          {
+            "path": ".impeccable/review/battlecard-mobile.png",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping asset."
+          },
+          {
+            "path": ".impeccable/review/ai-history-desktop.png",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping asset."
+          },
+          {
+            "path": ".impeccable/review/ai-history-mobile.png",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping asset."
+          },
+          {
+            "path": ".impeccable/review/ai-conversation-mobile.png",
+            "provenance": "Browser capture of implemented local prototype; review evidence, not a shipping asset."
+          }
+        ]
+      }
+    },
+    "opportunityReading": {
+      "source": "src/refinements.css",
+      "scope": "Scoped reading overrides; base frontmatter unchanged.",
+      "header": "Full-width readable serif title, separate evidence/status row, labelled business units, country/region, and offerings",
+      "navigation": "URL-backed Overview, Evidence, Conversation kit tabs; adjacent Ask SalesPlay action",
+      "layout": {
+        "maxWidth": "1440px",
+        "desktop": "Flexible reading column, 310px people/next-action aside, 40px gap",
+        "compact": "At 1200px: 280px aside, 28px gap",
+        "mobile": "At 760px: stacked reading/aside, two-column metadata, assistant action above tabs"
+      },
+      "typography": {
+        "title": "clamp(28px, 2.25vw, 36px); 27px on mobile",
+        "goal": "17px at 1.75 line height; 16px at 1.7 on mobile",
+        "reading": "16px at 1.75 line height"
+      },
+      "content": "Captured battle-card content retained; missing detail remains disclosed."
+    },
+    "peopleResearch": {
+      "sources": [
+        "src/PeopleWorkspace.jsx",
+        "src/ContactImport.jsx",
+        "src/contactImportData.js",
+        "src/people-research.css",
+        "src/main.jsx",
+        "src/routing.js"
+      ],
+      "scope": "Local extension; inherited tokens and component samples preserved.",
+      "import": {
+        "route": "/accounts/3m/contacts/import",
+        "inputs": [
+          "CSV file",
+          "Pasted CSV"
+        ],
+        "stages": [
+          "Choose source",
+          "Map columns",
+          "Review and import"
+        ],
+        "limits": {
+          "contacts": 500,
+          "bytes": 2097152
+        },
+        "validation": "Full name required; optional email validated; absent company defaults to 3M; invalid, duplicate name/email, and other-account rows skipped with reasons.",
+        "storageKey": "salesplay-imported-contacts-v1",
+        "profiles": "Unique imported- IDs; browser-local persistence with session-only fallback if saving fails."
+      },
+      "opportunities": "Profile search covers title, goal, business unit, and offerings across seven captured records. Captured links and unverified search matches remain distinct; no invented external links or backend enrichment.",
+      "layout": {
+        "rail": "64px collapsed icon rail above 760px; mobile overlay retained.",
+        "decisions": "First-class Accept/Reject, sticky below 72px header above 760px; normal flow on mobile. In-memory state and Return to review.",
+        "overview": "Compact reading surface with 280px aside; stacks on mobile.",
+        "signals": "Consistent flat rows and dates such as 23 Sept 2026."
+      },
+      "typography": {
+        "scope": "Intentional scoped roles; detector type-step findings are advisory. Base ramp unchanged.",
+        "directory": "17px names; 14px roles/actions; 12px upload label.",
+        "profile": "20px opportunity titles (18px mobile), 26px section headings (24px mobile), 15\u201316px reading, 12\u201313px metadata.",
+        "import": "28px entry heading, 26px review heading; 13\u201315px fields and controls.",
+        "signals": "18px titles, 16px summaries (15px mobile), 13px dates/metadata."
+      },
+      "review": {
+        "verdict": "PASS for scoped local preview",
+        "materialFindings": 0,
+        "build": "Production build passed.",
+        "pureChecks": "Parser and routing checks passed.",
+        "browserChecks": [
+          "Paste import: one valid and three skipped rows",
+          "Imported profile persistence and reopening",
+          "Reject and Return to review",
+          "Desktop and 390px mobile review"
+        ],
+        "limitation": "Native file-picker automation unverified: extension permission blocked that check.",
+        "captures": [
+          {
+            "path": ".impeccable/review/contact-import-desktop.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/contact-import-mobile.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/contact-opportunities-desktop.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/contact-opportunities-mobile.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/decisions-desktop.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/decisions-mobile.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/overview-compact-desktop.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/overview-mobile.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/signals-icons-desktop.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          },
+          {
+            "path": ".impeccable/review/signals-mobile.png",
+            "provenance": "Browser capture of local prototype; review evidence, not shipping artwork."
+          }
+        ]
+      }
+    }
+  },
+  "components": [
+    {
+      "name": "Primary action",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Cobalt review action.",
+      "html": "<button class=\"ds-primary\">Accept opportunity</button>",
+      "css": ".ds-primary{font-family:var(--sans,'Source Sans 3',sans-serif);display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:9px 13px;border:1px solid #9daeb9;border-radius:3px;background:#fff;color:var(--ink,#092332);font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s;background:#145cb4;border-color:#145cb4;color:white}.ds-primary:hover{background:#0b4690}.ds-primary:focus-visible{outline:2px solid #2476cc;outline-offset:3px}.ds-primary:disabled{opacity:.45;cursor:not-allowed}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none;animation:none}}"
+    },
+    {
+      "name": "Secondary action",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Bordered contextual action.",
+      "html": "<button class=\"ds-secondary\">View contacts</button>",
+      "css": ".ds-secondary{font-family:var(--sans,'Source Sans 3',sans-serif);display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:39px;padding:9px 13px;border:1px solid #9daeb9;border-radius:3px;background:#fff;color:var(--ink,#092332);font-size:13px;font-weight:600;cursor:pointer;transition:background .15s,border-color .15s;}.ds-secondary:hover{background:#eaf2f6;border-color:#718b9a}.ds-secondary:focus-visible{outline:2px solid #2476cc;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none;animation:none}}"
+    },
+    {
+      "name": "Search field",
+      "kind": "input",
+      "refersTo": "search",
+      "description": "Local search with enclosing focus treatment.",
+      "html": "<label class=\"ds-search\"><input aria-label=\"Search opportunities\" placeholder=\"Search opportunities or contacts\u2026\"/></label>",
+      "css": ".ds-search{font-family:var(--sans,'Source Sans 3',sans-serif);display:flex;height:39px;max-width:560px;border:1px solid #97abb8;border-radius:3px;background:white;padding:0 11px}.ds-search:focus-within{border-color:#2476cc}.ds-search input{font-family:var(--sans,'Source Sans 3',sans-serif);border:0;outline:none;background:transparent;min-width:0;flex:1;font-size:13px;color:var(--ink,#092332)}.ds-search input::placeholder{color:var(--muted,#536875)}@media(prefers-reduced-motion:reduce){.ds-search{transition:none;animation:none}}"
+    },
+    {
+      "name": "Active account navigation",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "Current local destination.",
+      "html": "<nav aria-label=\"Account\"><a class=\"ds-nav\" href=\"/accounts/3m/opportunities\" aria-current=\"page\">Opportunities <span class=\"ds-count\">7</span></a></nav>",
+      "css": ".ds-nav{font-family:var(--sans,'Source Sans 3',sans-serif);display:flex;align-items:center;justify-content:space-between;width:190px;min-height:40px;padding:10px 11px;border-radius:3px;background:#e4eef8;color:#154e94;font-size:14px;font-weight:600;text-decoration:none;transition:background .15s,color .15s}.ds-nav:hover{background:#edf3f6;color:var(--navy,#092b3d)}.ds-nav:focus-visible{outline:2px solid #2476cc;outline-offset:3px}.ds-count{font-family:\"JetBrains Mono\",monospace;font-size:10px;background:white;color:#164caa;border-radius:2px;padding:4px 6px}@media(prefers-reduced-motion:reduce){.ds-nav,.ds-count{transition:none;animation:none}}"
+    },
+    {
+      "name": "Medium evidence",
+      "kind": "chip",
+      "refersTo": "evidence-medium",
+      "description": "Written strength with a redundant bar indicator.",
+      "html": "<span class=\"ds-evidence\"><span class=\"ds-bars\" aria-hidden=\"true\"><i></i><i></i><i></i></span>Medium evidence</span>",
+      "css": ".ds-evidence{font-family:var(--sans,'Source Sans 3',sans-serif);display:inline-flex;align-items:center;gap:5px;border-radius:2px;padding:5px 6px;font-size:10px;line-height:1.2;font-weight:500;color:#176351;background:#e8f4ed}.ds-bars{display:inline-flex;gap:2px;align-items:flex-end;height:10px}.ds-bars i{width:3px;height:4px;background:currentColor;border-radius:1px}.ds-bars i:nth-child(2){height:7px}.ds-bars i:nth-child(3){height:10px;opacity:.25}@media(prefers-reduced-motion:reduce){.ds-evidence,.ds-bars{transition:none;animation:none}}"
+    },
+    {
+      "name": "Opportunity reading group",
+      "kind": "card",
+      "refersTo": "opportunity-list",
+      "description": "Flat reading row with a full title.",
+      "html": "<article class=\"ds-row\"><a class=\"ds-title\" href=\"/accounts/3m/opportunities\">Validate the New Ulm formulation opportunity</a><p class=\"ds-preview\">Review the evidence and confirm product fit before pursuing the opportunity.</p></article>",
+      "css": ".ds-row{font-family:var(--sans,'Source Sans 3',sans-serif);padding:22px 20px;border:1px solid #d2dfe5;border-radius:3px;background:white}.ds-row:hover{background:#f7fbfd}.ds-title{color:#103346;font-size:17px;font-weight:620;line-height:1.35;letter-spacing:-.01em;text-decoration:none}.ds-title:hover{color:#145cb4}.ds-title:focus-visible{outline:2px solid #2476cc;outline-offset:3px}.ds-preview{font-size:13px;line-height:1.55;color:var(--muted,#536875);margin:9px 0 0}@media(prefers-reduced-motion:reduce){.ds-row,.ds-title,.ds-preview{transition:none;animation:none}}"
+    },
+    {
+      "name": "People desk",
+      "kind": "custom",
+      "refersTo": "people-desk",
+      "description": "Teal rule and named relationship action.",
+      "html": "<aside class=\"ds-people\"><h2>People at 3M</h2><p>Explore captured contacts and their roles.</p><a href=\"/accounts/3m/contacts\">View all 22 contacts \u2192</a></aside>",
+      "css": ".ds-people{font-family:var(--sans,'Source Sans 3',sans-serif);max-width:292px;background:white;border-top:3px solid #1c6872;padding:22px 20px 18px;box-shadow:0 3px 14px #113c4e06}.ds-people h2{font-family:var(--serif,\"Source Serif 4\",Georgia,serif);font-size:22px;font-weight:450;color:#123f4b;margin:0}.ds-people p{font-size:13px;line-height:1.6;color:var(--muted,#536875);margin:8px 0 20px}.ds-people a{font-size:13px;color:var(--accent,#1859b9);text-decoration:none}.ds-people a:hover{text-decoration:underline}.ds-people a:focus-visible{outline:2px solid #2476cc;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-people{transition:none;animation:none}}"
+    },
+    {
+      "name": "Context composer",
+      "kind": "custom",
+      "refersTo": "composer",
+      "description": "Visible context and teal submit action.",
+      "html": "<div class=\"ds-composer\"><span class=\"ds-context\">3M Company</span><textarea class=\"ds-message\" aria-label=\"Message SalesPlay\" placeholder=\"Ask about this account\u2026\"></textarea><button class=\"ds-send\" aria-label=\"Send message\">\u2191</button></div>",
+      "css": ".ds-composer{font-family:var(--sans,'Source Sans 3',sans-serif);border:1px solid #92adb8;border-radius:5px;background:white;box-shadow:0 5px 16px #092b3d08;padding:14px 16px;max-width:780px}.ds-composer:focus-within{border-color:#b1abdf}.ds-context{display:inline-flex;background:#edf2f4;color:#375a6c;font-size:11px;border-radius:2px;padding:4px 6px}.ds-message{font-family:var(--sans,'Source Sans 3',sans-serif);display:block;resize:none;border:0;outline:none;width:100%;height:52px;font-size:16px;line-height:1.5;padding:8px 0;color:var(--ink,#092332)}.ds-message::placeholder{color:var(--muted,#536875)}.ds-send{background:#106a68;color:white;border:0;border-radius:3px;width:31px;height:31px;margin-left:auto;display:grid;place-items:center;cursor:pointer}.ds-send:hover{background:#084d4c}.ds-send:focus-visible{outline:2px solid #2476cc;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-composer,.ds-context,.ds-message,.ds-send{transition:none;animation:none}}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The editorial account workspace",
+    "overview": "SalesPlay uses an editorial research workspace: a deep navy command bar, white account rail, cool reading surfaces, cobalt actions, and teal relationship cues. Source Serif 4 gives research and page headings a measured reading hierarchy; Source Sans 3 keeps dense controls and named people clear. This replacement direction draws on the giq2 Advisory reference without claiming an exact reproduction.\n\nThis records the implemented prototype and its established visual world. The inherited base is layered through src/styles.css, src/premium.css, src/themes.css, src/workspace.css, and finally src/accounts.css. Theme roles govern colour; workspace refinements govern shared readability; account styles extend portfolio layout and navigation. The frontmatter and original component samples retain the established base tokens; later refinements below describe the active overrides.",
+    "keyCharacteristics": [
+      "Serif reading hierarchy with compact sans-serif controls.",
+      "A global command bar for account search and Ask SalesPlay.",
+      "First-class named contacts beside the opportunity queue.",
+      "Fine rules, precise corners, and mostly flat surfaces."
+    ],
+    "rules": [
+      {
+        "name": "The Evidence Label Rule",
+        "body": "Pair evidence color with its written strength; color does not establish product fit or a qualified outcome.",
+        "section": "colors"
+      },
+      {
+        "name": "The Quiet Surface Rule",
+        "body": "Keep reading surfaces visually flat; stronger elevation identifies temporary foreground controls.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do preserve complete opportunity titles, evidence labels, and source references.",
+      "Do keep search, Ask SalesPlay, and entity context visible in their established locations.",
+      "Do use local font assets, clear focus treatments, and reduced-motion behavior.",
+      "Do disclose captured scope and scripted AI."
+    ],
+    "donts": [
+      "Don't restore the superseded lavender visual direction.",
+      "Don't substitute anonymous metrics for named contacts.",
+      "Don't imply captured records or scripted responses are live integrations.",
+      "Don't apply heavy shadows or large rounding to reading surfaces."
+    ]
+  }
+}
