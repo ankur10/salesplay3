@@ -13,6 +13,7 @@ A working frontend reference for integrating the redesigned SalesPlay experience
 | [CLAUDE.md](CLAUDE.md) | Instructions for Claude Code working in this reference repo or porting it into SalesPlay |
 | [DESIGN.md](DESIGN.md) | Established typography, palette roles, components, and later scoped refinements |
 | [PRODUCT.md](PRODUCT.md) | Confirmed scope and detailed product behavior |
+| [OPPORTUNITY-CONCEPTS.md](OPPORTUNITY-CONCEPTS.md) | Approved Option 10 opportunity experience, matching/import limits, and archived alternatives at `/design-options` |
 | [DIRECTION.md](DIRECTION.md) | Original visual rationale; historical verification sections are not current implementation instructions |
 
 The current rendered UI and implementation establish what has shipped in the prototype. Some earlier design documents retain historical token values and screenshots; use the active CSS cascade to resolve current values. If a migration requirement conflicts with production constraints, record the conflict rather than silently dropping behavior.
@@ -64,7 +65,7 @@ Evidence strength describes captured research, not predicted success. Accept/Rej
 | --- | --- |
 | Home | Opportunity queue with search and review-state tabs; Accept/Reject; linked/uploaded people; recent work; scoped AI prompt; three signals; favourite/recent accounts; first-use guidance when history is empty |
 | Account directory | Search, industry/region filters, sorting, pagination, favourites, recent accounts, and explicit sample-account previews |
-| Opportunity queue | Search/filter/sort, evidence labels, contact entry points, bookmarks, and review-state controls |
+| Opportunities | Approved Option 10: Recommended with preview; Explore with keyword/guided discovery and faceted Search; My Opportunities with Saved/Uploaded collections and preview |
 | Opportunity detail | Readable full title; business units, region, offerings; Overview/Evidence/Conversation kit URLs; prominent Accept/Reject; people and next-action context |
 | People | All/Uploaded views, role/search/saved filters, profiles, verified captured links separated from opportunity search results |
 | Contact import | CSV file or paste → map columns → review valid/skipped rows → import; errors and duplicate reasons before confirmation |
@@ -76,7 +77,10 @@ Evidence strength describes captured research, not predicted success. Accept/Rej
 
 | File | Responsibility / integration seam |
 | --- | --- |
-| `src/main.jsx` | App state and composition; shell; opportunity queue/detail; contextual AI; `changeStatus`, `ask`, `askEntity`; `AIResponse` and new-tab `ResponseLink` |
+| `src/main.jsx` | App state and composition; shell; shared opportunity records/bookmarks and detail; contextual AI; `changeStatus`, `ask`, `askEntity`; `AIResponse` and new-tab `ResponseLink` |
+| `src/CombinedConcepts.jsx` | Approved Option 10 workspace; embedded in App with shared records/bookmarks; also renders gallery options 7–10 |
+| `src/EntitySelector.jsx`, `src/entity-selector.css` | Searchable bounded multi-select, retained selections, reviewed paste matching; compact facet variant |
+| `src/primary-opportunities.css` | Main-shell and semantic-theme integration for the approved workspace |
 | `src/HomeWorkspace.jsx` | Home composition and `useRecentWork`; consumes opportunities, contacts, account preferences, conversations, and action callbacks |
 | `src/AccountDirectory.jsx` | Directory, recent/favourite/sample views and `useAccountPreferences` |
 | `src/PeopleWorkspace.jsx` | People directory/profile, captured opportunity relationships, and keyword search |
@@ -96,7 +100,7 @@ Evidence strength describes captured research, not predicted success. Accept/Rej
 
 ### Styling and ownership
 
-The prototype evolved through layered CSS. Main imports are ordered: `styles.css` → `premium.css` → `themes.css` → `workspace.css` → `accounts.css` → `refinements.css` → `people-research.css`. `HomeWorkspace.jsx` also imports its scoped `home.css`.
+The prototype evolved through layered CSS. Main imports are ordered: `styles.css` → `premium.css` → `themes.css` → `workspace.css` → `accounts.css` → `refinements.css` → `people-research.css` → `primary-opportunities.css`. The opportunity workspace also uses scoped `opportunity-concepts.css`, `combined-concepts.css`, and `entity-selector.css`. `HomeWorkspace.jsx` also imports its scoped `home.css`.
 
 - `styles.css`: inherited base layout and controls.
 - `premium.css`: editorial visual layer and local font faces.
@@ -118,7 +122,10 @@ These are reference URLs, not a mandate to replace production URLs. `/` redirect
 | Home | `/home` |
 | All / recent / favourite accounts | `/accounts`, `/accounts/recent`, `/accounts/favourites` |
 | Sample account | `/accounts/sample-:group-:sector` |
-| Opportunity queue / detail | `/accounts/3m/opportunities`, `/accounts/3m/opportunities/:id` |
+| Recommended | `/accounts/3m/opportunities` |
+| Explore | `/accounts/3m/opportunities?view=explore` |
+| My Opportunities | `/accounts/3m/opportunities?view=my` |
+| Opportunity detail | `/accounts/3m/opportunities/:id` |
 | Detail tabs | `/accounts/3m/opportunities/:id/evidence`, `/accounts/3m/opportunities/:id/conversation-kit` |
 | People / profile / upload | `/accounts/3m/contacts`, `/accounts/3m/contacts/:id`, `/accounts/3m/contacts/import` |
 | Ask SalesPlay | `/accounts/3m/ask` |
@@ -132,6 +139,12 @@ AI queries carry one selected entity: `?opportunity=:id`, `?contact=:id`, or `?d
 
 Ordinary routes use `LocalLink`/`follow()`. AI response destinations use `ResponseLink`, a native anchor with `target="_blank"` and `rel="noopener noreferrer"`; do not attach the same-tab click interceptor to it. Recent interactions continue to use same-tab links. New tabs reload the application, so transient prototype review/bookmark state is not shared between them.
 
+**Option 10 is the approved primary Opportunities experience.** The app’s left navigation exposes Recommended, Explore, and My Opportunities at the URLs above. The former opportunity-list UI is no longer rendered. Recommended and My Opportunities start with the preview expanded. Explore offers keyword search and guided contact/persona/product/business-unit/signal/trigger selection, then a Search view with facets, results, and preview. Guided steps, result conditions, preview selections, Saved/Uploaded tabs, and import steps remain local component state, not deep links. Recent searches survive destination changes while this workspace remains mounted; leaving Opportunities clears that history.
+
+Records, review decisions, imported opportunities, and bookmarks use App state shared with other same-tab app views. Saved starts with three captured opportunities bookmarked for demonstration; Uploaded starts empty. This is temporary prototype state and resets on reload. Imported opportunities remain accessible through the workspace preview and My Opportunities → Uploaded; Home, global search, captured detail routes, and individual AI context exclude them. Their AI action opens account context. Imports require review and remain unverified. Contact-list matching stays within 3M and does not add people to the persisted directory.
+
+The `/design-options` gallery remains an archive of ten alternatives (`#1` through `#10`), including a standalone copy of the chosen design. Gallery instances retain isolated state and do not update the primary app. Use the main routes to review the accepted experience. See [OPPORTUNITY-CONCEPTS.md](OPPORTUNITY-CONCEPTS.md) for matching limits and historical verification scope.
+
 ## Data, persistence, and limits
 
 The reference contains **seven opportunities, 22 captured people, ten signals, and three captured document readers**. Only New Ulm has the full inspected battle card. Its fixture contains three named contact relationships while its reported contact count is 22. Other opportunity counts also come from captured source labels, not complete relationship arrays. The Signals footer retains a historical source total of 429 alongside the ten captured entries. Do not treat these displayed source counts as the number of local records or current production totals. Document readers contain captured text, not original PDF layouts. The directory adds **120 fictional accounts** to 3M; they never inherit 3M research or AI context.
@@ -144,11 +157,13 @@ The reference contains **seven opportunities, 22 captured people, ten signals, a
 | Recent people/opportunities | `salesplay-recent-work-v1` | Up to eight unique visits; Home combines with accounts/chats and shows three |
 | Conversations | `salesplay-conversations-v1` | Latest 50, including messages, scope, title, timestamp |
 | Imported contacts | `salesplay-imported-contacts-v1` | Browser-local `imported-` IDs; each import allows up to 500 contacts / 2 MB |
-| Review decisions, bookmarks, saved people, filters, drafts | React state | Reset on reload; not shared between tabs |
+| Opportunity records/imports, review decisions, bookmarks | App React state | Shared during same-tab app navigation; reload restores fixtures and three sample bookmarks; independent across tabs |
+| Explore history, filters, guided/import steps | Workspace React state | Reset on workspace unmount or reload; no deep links |
+| Saved people, drafts | React state | Reset on reload; not shared between tabs |
 
 Storage accesses have fallback handling, but this is not production persistence. Only the theme has an explicit cross-tab synchronization listener. Other stores load into each tab independently; stale tabs can overwrite newer localStorage values, especially conversation/account history. New-tab navigation preserves the original tab in the observed flow, but does not provide cross-tab data consistency. Local chat/upload URLs only work in the browser containing the record. There is no authenticated user/tenant namespace, logout cleanup, backend synchronization, or production data-retention policy. Do not adopt these storage keys as a production persistence design.
 
-The UI labels its file limit as 2 MB; the actual threshold is 2 × 1024 × 1024 bytes (2 MiB), with files at that threshold accepted. CSV import requires a full name; supplied email is validated. Missing company defaults to 3M. Duplicate names/emails and non-3M companies are skipped with reasons. This account-specific validation is a **fixture constraint**, not a general production business rule. Uploaded contacts receive no fabricated relationships, external profiles, or enrichment. Opportunity search is literal client-side text matching across the captured seven records.
+The People-directory contact import labels its file limit as 2 MB; the actual threshold is 2 × 1024 × 1024 bytes (2 MiB), with files at that threshold accepted. CSV import requires a full name; supplied email is validated. Missing company defaults to 3M. Duplicate names/emails and non-3M companies are skipped with reasons. This account-specific validation is a **fixture constraint**, not a general production business rule. Uploaded contacts receive no fabricated relationships, external profiles, or enrichment. Opportunity keyword search is client-side text matching. Guided and facet matching use captured fields; persona/trigger rules are illustrative. The Opportunities workspace has a separate CSV/TSV/TXT or paste import flow limited to 1 MB / 500 rows, with row review before contact matching or adding unverified opportunities. It does not use the persisted contact-directory import store.
 
 AI responses are scripted; the timer in `conversations.js` stores the user prompt as the assistant message input, then `AIResponse` selects demonstration content. That is not an LLM response model. Replace the entire simulation boundary with the existing production assistant integration; never persist echoed prompts as real assistant responses.
 

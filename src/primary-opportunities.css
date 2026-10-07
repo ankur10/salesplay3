@@ -1,0 +1,29 @@
+/* Option 10 inside the shared application shell. */
+.primary-opportunities.cx-root {
+  --cx-ink: var(--ink);
+  --cx-muted: var(--muted);
+  --cx-line: var(--line);
+  --cx-blue: var(--accent);
+  --cx-bg: var(--canvas);
+  min-height: 0;
+  background: transparent;
+  font-family: inherit;
+}
+.primary-opportunities .cx-app-body { display: block; min-height: 0; }
+.primary-opportunities .cx-work { padding: 0; max-width: none; }
+.primary-opportunities .cx-page-heading { margin-top: 0; }
+.primary-opportunities .hy-result,
+.primary-opportunities .cx-inspector,
+.primary-opportunities .cx-facets { background: var(--surface); }
+.primary-opportunities .hy-result.selected { background: var(--selected); border-color: var(--selected-border); }
+.primary-opportunities .cx-primary { background: var(--primary); color: white; }
+.opportunity-navigation .nav-link { min-height: 32px; padding-top: 6px; padding-bottom: 6px; font-size: 14px; }
+@media (min-width: 761px) {
+ .primary-opportunities .hy-mobile-views { display: flex; margin-bottom: 16px; }
+ .app:not(.rail-closed) .primary-opportunities .hy-mobile-views { display: none; }
+}
+@media (min-width: 1050px) and (max-width: 1400px) {
+ .primary-opportunities.tn-search-page .hy-results { grid-template-columns: 220px minmax(0, 1fr); }
+ .primary-opportunities.tn-search-page .cx-inspector { grid-column: 2; }
+ .primary-opportunities.tn-search-page .cx-facets { grid-row: 1 / span 2; }
+}
