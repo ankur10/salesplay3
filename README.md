@@ -29,7 +29,7 @@ npm run build
 npm run preview
 ```
 
-Vite serves on `127.0.0.1` and prints its port. The development default is usually `5173`. The build outputs `dist/`. Production hosting needs an SPA fallback to `index.html` for deep-link refreshes. Do not copy this host configuration into the main application without checking its deployment conventions.
+Vite serves on `127.0.0.1` and prints its port. The development default is usually `5173`. The build outputs `dist/`. The root `vercel.json` configures the SPA rewrite to `index.html`, so direct links and refreshes (including opportunity details) reach the client router instead of Vercel's 404 page. Deploy this configuration with the app; other hosts need an equivalent SPA fallback. Do not copy this host configuration into the main application without checking its deployment conventions.
 
 Stack: React 19, Vite 6, plain JavaScript/JSX, Lucide icons, and plain CSS. No router library, test runner, formatter, or linter is configured in this reference repo. `package-lock.json` is the dependency lock.
 
@@ -65,7 +65,7 @@ Evidence strength describes captured research, not predicted success. Accept/Rej
 | --- | --- |
 | Home | Opportunity queue with search and review-state tabs; Accept/Reject; linked/uploaded people; recent work; scoped AI prompt; three signals; favourite/recent accounts; first-use guidance when history is empty |
 | Account directory | Search, industry/region filters, sorting, pagination, favourites, recent accounts, and explicit sample-account previews |
-| Opportunities | Approved Option 10: Recommended with preview; Explore with keyword/guided discovery and faceted Search; My Opportunities with Saved/Uploaded collections and preview |
+| Opportunities | Approved Option 10: Recommended with preview; Explore with keyword/guided discovery and faceted Search; My Prompts for saved custom opportunity criteria; My Opportunities with Saved/Uploaded collections and preview |
 | Opportunity detail | Readable full title; business units, region, offerings; Overview/Evidence/Conversation kit URLs; prominent Accept/Reject; people and next-action context |
 | People | All/Uploaded views, role/search/saved filters, profiles, verified captured links separated from opportunity search results |
 | Contact import | CSV file or paste → map columns → review valid/skipped rows → import; errors and duplicate reasons before confirmation |
@@ -79,6 +79,8 @@ Evidence strength describes captured research, not predicted success. Accept/Rej
 | --- | --- |
 | `src/main.jsx` | App state and composition; shell; shared opportunity records/bookmarks and detail; contextual AI; `changeStatus`, `ask`, `askEntity`; `AIResponse` and new-tab `ResponseLink` |
 | `src/CombinedConcepts.jsx` | Approved Option 10 workspace; embedded in App with shared records/bookmarks; also renders gallery options 7–10 |
+| `src/OpportunityBrief.jsx`, `src/opportunity-brief.css` | Prompt-first editor, optional criteria, reviewable terms, named save/update, Any/All matching, and captured-result count |
+| `src/BriefLibrary.jsx`, `src/savedBriefs.js` | Searchable My Prompts library; validated browser-local saved prompts for the primary app |
 | `src/EntitySelector.jsx`, `src/entity-selector.css` | Searchable bounded multi-select, retained selections, reviewed paste matching; compact facet variant |
 | `src/primary-opportunities.css` | Main-shell and semantic-theme integration for the approved workspace |
 | `src/HomeWorkspace.jsx` | Home composition and `useRecentWork`; consumes opportunities, contacts, account preferences, conversations, and action callbacks |
@@ -124,6 +126,7 @@ These are reference URLs, not a mandate to replace production URLs. `/` redirect
 | Sample account | `/accounts/sample-:group-:sector` |
 | Recommended | `/accounts/3m/opportunities` |
 | Explore | `/accounts/3m/opportunities?view=explore` |
+| My Prompts | `/accounts/3m/opportunities?view=prompts` |
 | My Opportunities | `/accounts/3m/opportunities?view=my` |
 | Opportunity detail | `/accounts/3m/opportunities/:id` |
 | Detail tabs | `/accounts/3m/opportunities/:id/evidence`, `/accounts/3m/opportunities/:id/conversation-kit` |
@@ -139,7 +142,11 @@ AI queries carry one selected entity: `?opportunity=:id`, `?contact=:id`, or `?d
 
 Ordinary routes use `LocalLink`/`follow()`. AI response destinations use `ResponseLink`, a native anchor with `target="_blank"` and `rel="noopener noreferrer"`; do not attach the same-tab click interceptor to it. Recent interactions continue to use same-tab links. New tabs reload the application, so transient prototype review/bookmark state is not shared between them.
 
-**Option 10 is the approved primary Opportunities experience.** The app’s left navigation exposes Recommended, Explore, and My Opportunities at the URLs above. The former opportunity-list UI is no longer rendered. Recommended and My Opportunities start with the preview expanded. Explore offers keyword search and guided contact/persona/product/business-unit/signal/trigger selection, then a Search view with facets, results, and preview. Guided steps, result conditions, preview selections, Saved/Uploaded tabs, and import steps remain local component state, not deep links. Recent searches survive destination changes while this workspace remains mounted; leaving Opportunities clears that history.
+**Option 10 is the approved primary Opportunities experience.** The app’s left navigation exposes Recommended, Explore, My Prompts, and My Opportunities at the URLs above. The former opportunity-list UI is no longer rendered. Recommended and My Opportunities start with the preview expanded. Explore offers keyword search and five guided starting points: Contact, Persona, Product, Business unit, and Signal. Trigger and custom prompts are absent from Explore entry, tabs, and history. Search shows facets, results, and preview.
+
+**My Prompts** owns the complete custom-prompt workflow: Create prompt, a quiet prompt-first editor, reviewable criteria, explicit Save prompt / Save changes, and matching opportunity results with Edit prompt. Optional signals and exclusions sit behind a disclosure. Users adjust derived terms, choose Any/All matching, and see a captured-result count before searching. The searchable library supports multiple named prompts, matching counts, View opportunities, and Edit prompt. Finding opportunities does not automatically save a prompt. Saved prompts persist in this browser for 3M; the legacy storage key is retained to preserve existing saves. Creation, editing, and prompt results stay within My Prompts. The former `?view=briefs` URL remains a compatibility alias for `?view=prompts`.
+
+Matching is local substring matching over captured titles, goals, business units, products, and contact names/roles—not AI interpretation or verification of new signals. Imported opportunities are excluded from prompt matching. Guided steps, result conditions, prompt editor/results, preview selections, Saved/Uploaded tabs, and import steps remain local component state, not deep links. Explore recent searches replay keyword/guided criteria only and survive destination changes while the workspace remains mounted; leaving Opportunities clears history.
 
 Records, review decisions, imported opportunities, and bookmarks use App state shared with other same-tab app views. Saved starts with three captured opportunities bookmarked for demonstration; Uploaded starts empty. This is temporary prototype state and resets on reload. Imported opportunities remain accessible through the workspace preview and My Opportunities → Uploaded; Home, global search, captured detail routes, and individual AI context exclude them. Their AI action opens account context. Imports require review and remain unverified. Contact-list matching stays within 3M and does not add people to the persisted directory.
 
@@ -157,6 +164,7 @@ The reference contains **seven opportunities, 22 captured people, ten signals, a
 | Recent people/opportunities | `salesplay-recent-work-v1` | Up to eight unique visits; Home combines with accounts/chats and shows three |
 | Conversations | `salesplay-conversations-v1` | Latest 50, including messages, scope, title, timestamp |
 | Imported contacts | `salesplay-imported-contacts-v1` | Browser-local `imported-` IDs; each import allows up to 500 contacts / 2 MB |
+| Named opportunity prompts | `salesplay-briefs-3m-v1` | Primary app only; multiple validated prompts survive reload; gallery uses memory; no live monitoring |
 | Opportunity records/imports, review decisions, bookmarks | App React state | Shared during same-tab app navigation; reload restores fixtures and three sample bookmarks; independent across tabs |
 | Explore history, filters, guided/import steps | Workspace React state | Reset on workspace unmount or reload; no deep links |
 | Saved people, drafts | React state | Reset on reload; not shared between tabs |
@@ -189,3 +197,13 @@ Next: follow [INTEGRATION.md](INTEGRATION.md) to port this experience into the m
 Rechecked README, CLAUDE, and INTEGRATION against the current source. Ad hoc Node assertions passed for fixture counts, every declared top-level route, upload-route precedence, evidence-tab parsing, CSV delimiter handling and the 500-row boundary, malformed conversation storage, and scope-bearing conversation URLs. These assertions were run during the audit; they are not a committed regression suite. Documentation links and whitespace checks also passed. Browser/build results listed above are earlier development evidence, not newly rerun in this documentation audit.
 
 The main SalesPlay repository and its API definitions were not inspected. INTEGRATION.md therefore provides a migration process and verification requirements, not a verified compatibility assessment.
+
+### Opportunity outreach
+
+The detail page now has Overview, Outreach, and Evidence tabs. **Prepare outreach** and each captured person's **Prepare email** action open `/accounts/3m/opportunities/:id/outreach` (optional `?contact=Full%20Name`). The old `/conversation-kit` route opens Outreach for compatibility.
+
+Outreach opens with pre-filled editable Email, Talking points, and Follow-up tabs, plus a full-width **My Templates** tab. There is no Objective dropdown or preferences side rail. Personal templates support a name, material type, subject, reusable content, and optional writing instructions. **Save as template** starts from the current draft; **Use template** previews substitutions before replacing only the active material. Supported placeholders: `{{first_name}}`, `{{contact_name}}`, `{{company}}`, `{{opportunity}}`, `{{products}}`, and `{{signature}}`. Templates are browser-local, not shared with a team.
+
+Delivery remains Copy or Open in email app (`mailto:`); SalesPlay does not send or track email. Existing per-contact drafts are preserved. Default content is deterministic; free-form template instructions are saved as guidance but are not interpreted by AI.
+
+Relevant files: `src/OutreachWorkspace.jsx` (workflow), `src/outreach.js` (template/storage/mailto helpers), `src/outreach.css` (responsive layout), `src/routing.js` and `src/main.jsx` (entry points). Browser keys: `salesplay-outreach-templates-v1`, `salesplay-outreach-drafts-v1`, and the retained `salesplay-outreach-preferences-v1` for legacy signature/tone defaults. Production must use authenticated user-scoped persistence.

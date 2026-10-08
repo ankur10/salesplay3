@@ -26,6 +26,7 @@ Do not replace the production app with this Vite project or overwrite its packag
 | `data.js`, `research.json`, `accounts.js` | Existing query clients/selectors; stable IDs; account and seller context; optional fields; server totals/pagination; remove fixtures from production paths |
 | `routing.js`, `LocalLink` | Existing router, base path, permissions, deep-link compatibility, query encoding, browser history; parameterize account/seller IDs rather than carrying `/3m` literals |
 | `CombinedConcepts` primary mode, `EntitySelector` | Approved Recommended/Explore/My layout; map dimensions to supported fields and stable IDs; remote lookup/pagination where existing APIs support it; review-before-confirm import flows; remove illustrative persona/trigger rules |
+| `OpportunityBrief`, `BriefLibrary`, `savedBriefs.js` | My Prompts editor, library, and results with named prompts; map criteria and persistence to existing authorized services. Local tokenizer/substring counts are only a prototype; no AI interpretation, live signals, or monitoring. Replace account-only browser storage with approved user/account scope; handle unsupported persistence honestly. |
 | `App.records`, `changeStatus` | Current review mutation/status vocabulary; loading/disabled state; error rollback and cache invalidation; actual supported undo semantics |
 | `bookmarks`, `savedContacts`, account preferences | Existing user-specific persistence; permission and failure states; avoid unscoped localStorage |
 | `HomeWorkspace` | Real queue and relationship selectors; authorized account scope; actual recency; supported aggregate search/filter/pagination; no manufactured scores or urgency |
@@ -41,7 +42,7 @@ An adapter/view-model layer is a useful way to preserve UI composition without c
 
 ## Non-negotiable interaction rules
 
-- Use approved Option 10 for Opportunities; the former list is superseded. Recommended, Explore, and My Opportunities belong in the app left nav. Keep Recommended/My previews open by default, guided and keyword entry in Explore, and facets beside Search results. Saved/Uploaded are My Opportunities tabs.
+- Use approved Option 10 for Opportunities; the former list is superseded. Recommended, Explore, My Prompts, and My Opportunities belong in the app left nav. Keep Recommended/My previews open by default, guided and keyword entry in Explore, and facets beside Search results. Saved/Uploaded are My Opportunities tabs. My Prompts is a single library destination, not one nav link per saved prompt; keep optional prompt criteria collapsed and save separate from Find opportunities. Creation, editing, and custom-prompt results stay in My Prompts; Explore contains keyword search and five account dimensions only. Keep prompt snapshots out of Explore history.
 - Home leads with opportunities and supports people, recent work, signals, and accounts. People must remain easy to find, not buried in a generic activity widget.
 - Keep Ask SalesPlay prominent in the command bar and as a dedicated workspace. Show account plus selected opportunity/contact/document context. Do not silently expand scope to other accounts.
 - Response links to opportunities, people, documents, conversation kits, or external sources open in a new tab. Show the icon plus accessible disclosure. Normal navigation and recent AI conversations stay in the same tab.
@@ -58,7 +59,7 @@ An adapter/view-model layer is a useful way to preserve UI composition without c
 1. **Hardcoded account/seller assumptions.** `/accounts/3m`, `3M Company`, LANXESS labels, fixed signal slices, and import company validation are demonstration choices. Derive context from authenticated production data.
 2. **Fixture relationships.** The prototype joins some contacts by name. Production must use stable IDs and actual relationship records. Matching a name or keyword is not ownership evidence.
 3. **Fixture-only AI.** `conversations.js` echoes prompts into a timed assistant entry; `AIResponse` branches on keywords. Neither belongs in the live AI path. Production messages need actual content, role, context, citations, and server identifiers from the existing service.
-4. **Temporary opportunity state.** Primary records/imports, decisions, and bookmarks share App memory during same-tab navigation. Reload restores fixtures and three seeded bookmarks; tabs are independent. Inner Explore/search/import state and history reset on workspace unmount. Imported opportunities only have a local preview/account-level AI link; they are excluded from captured detail/global-search/Home paths. Production decisions should use existing server state, not a React-only success toast.
+4. **Temporary opportunity state.** Primary records/imports, decisions, and bookmarks share App memory during same-tab navigation. Reload restores fixtures and three seeded bookmarks; tabs are independent. Inner Explore/search/import state, unsaved drafts, and history reset on workspace unmount. Explicitly saved named prompts persist in primary mode under `salesplay-briefs-3m-v1`; gallery saves are memory-only. This is account-specific browser storage, not production persistence or live monitoring. Imported opportunities only have a local preview/account-level AI link; they are excluded from captured detail/global-search/Home paths. Production decisions should use existing server state, not a React-only success toast.
 5. **Unscoped local storage.** Contacts and conversations are stored under browser-wide keys. Only theme state has an explicit cross-tab listener; other tabs can hold stale snapshots and overwrite newer local records. This matters now that AI response links open new tabs. Use the existing authorized persistence model; do not carry contact/message storage into production without account/user scoping, retention, and logout behavior.
 6. **Incomplete source data and mixed counts.** Seven opportunities and one full battle card are not account totals. New Ulm has three named fixture relationships but reports 22 contacts; other opportunity counts and the Signals footer retain historical source totals. Bind real totals and relationships independently. Do not hardcode these counts or hide real sections to match a fixture.
 7. **Global CSS layering.** Multiple late overrides and broad selectors reflect iteration. Consolidate into the target’s components/tokens incrementally while preserving computed appearance. Test unaffected screens.
@@ -75,7 +76,7 @@ Use the target’s normal test tools. Add focused tests for real behavior and in
 | Routes/context | Existing production links still work or redirect deliberately; direct refresh; Back/Forward; account/seller context survives; invalid/unauthorized entity has a useful state |
 | New-tab AI links | Response detail/source links create a new tab; original transcript, draft, scope and scroll remain; destination resolves independently; history/app links remain same-tab; keyboard/modified clicks work |
 | Reviews | Accept/Reject use existing API; pending state prevents duplicate mutation; errors do not appear successful; reload/second tab reflect server state; undo only when supported |
-| Opportunities | Recommended/Explore/My destination URLs and history; preview defaults; keyword/guided flow; facet lookup and retained multi-selection; Saved/Uploaded distinction; import validation; honest empty/error states; no seeded production saves |
+| Opportunities | Recommended/Explore/My Prompts/My Opportunities destination URLs and history; named prompt save/update/reload and failure states; matching counts and edit/view flows; preview defaults; keyword/guided flow; facet lookup and retained multi-selection; Saved/Uploaded distinction; import validation; honest empty/error states; no seeded production saves |
 | People | Upload origin visible; genuine relationships distinct from results; full profile and opportunity detail work; missing fields and duplicate names handled |
 | Import | Real file picker and paste; quoted/multiline CSV; BOM; headers/mapping; limits; duplicate and company resolution; partial failures; retry; persistence; no unintended server transmission before the intended step |
 | AI/history | Existing live assistant and stored messages; correct account/entity scope; source links; new/resumed conversations; loading/stream/error/cancel behavior supported by target service; no simulated replies |
@@ -114,9 +115,10 @@ backend capability gaps. Implement the supported UI using this repo's
 patterns, starting with account → approved Option 10 opportunities → battle card → AI.
 Then add people/import, research, directory, and opportunity-led Home.
 Use the approved Option 10 workspace, not the old opportunity list or other
-gallery alternatives. Recommended, Explore, and My Opportunities are left-nav
+gallery alternatives. Recommended, Explore, My Prompts, and My Opportunities are left-nav
 destinations. Reference URLs are /accounts/3m/opportunities, ?view=explore,
-and ?view=my; adapt them to this repo’s router. Do not port the three seeded
+?view=prompts, and ?view=my; adapt them to this repo’s router. The old ?view=briefs
+value is a compatibility alias; retain existing saved data in salesplay-briefs-3m-v1. Do not port the three seeded
 bookmarks or illustrative persona/trigger matching as real user data or logic.
 Keep people first-class and Ask SalesPlay prominent. Response detail/source
 links open new tabs with accessible indicators; app/history navigation
@@ -138,3 +140,9 @@ merge, deploy, or publish unless separately requested.
 ## What to transfer
 
 Provide this source repo including README, INTEGRATION, CLAUDE, PRODUCT, DESIGN, DIRECTION, `src/`, `public/` (font licenses included), and the lockfile. Do not send `node_modules/` or `dist/`; rebuild locally. Optional screenshot evidence is gitignored and must be shared separately. No dependency on the original local giq2 folder or an Impeccable installation is required to run or port the app.
+
+### Outreach handover
+
+Port `OutreachWorkspace.jsx`, `outreach.js`, and `outreach.css` with the detail route/people actions in `main.jsx` and the `/outreach` plus legacy `/conversation-kit` parsing in `routing.js`. Preserve the existing opportunity evidence and qualification branches. The prototype immediately fills Email, Talking points, and Follow-up from deterministic starter templates. My Templates is a fourth, full-width tab for personal reusable content and instructions. `renderTemplate` substitutes the documented placeholders; a preview precedes replacement of only the active material. Free-form instructions are retained as guidance, not executed by a model. Replace `createStarterKit` with an existing authorized generation service when available; pass selected opportunity, contact, material type, template content, and personal instructions. The Objective dropdown and preferences side rail have been removed. Preserve review/edit-before-delivery and replacement confirmation. Do not claim product fit or contact ownership from a mapped relationship.
+
+Delivery is Copy or `mailto:` only; never mark an email sent based on opening the client. Production persistence must scope preferences to the authenticated user and drafts to user/account/opportunity/stable contact ID. Current browser storage is only a demonstration and is keyed by opportunity ID/contact name. No backend contract or sending integration was added.

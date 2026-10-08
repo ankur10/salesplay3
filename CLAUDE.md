@@ -24,6 +24,8 @@ For reference changes, run the production build when source changes warrant it a
 ## Current ownership
 
 - `src/main.jsx`: App state; shell; shared opportunity records/bookmarks and detail; AI workspace; review mutations; selected-context handoff; scripted `AIResponse`; `ResponseLink`.
+- `src/OpportunityBrief.jsx` and `src/opportunity-brief.css`: editable prompt/custom criteria, reviewable terms, Any/All logic, exclusions, and live captured-match count. `matchesBrief` uses local case-insensitive substring matching; it does not call AI or verify signals.
+- `src/BriefLibrary.jsx` and `src/savedBriefs.js`: My Prompts library and validated browser-local save/update. Primary mode persists; gallery mode uses memory. Counts are captured substring matches, not AI or monitoring.
 - `src/CombinedConcepts.jsx`: approved Option 10 primary workspace (`primary` mode), plus isolated gallery options 7–10. `src/EntitySelector.jsx`: bounded searchable selection and reviewed paste matching. `src/primary-opportunities.css`: main-shell/theme integration.
 - `src/HomeWorkspace.jsx` / `src/home.css`: opportunity-led Home and recent person/opportunity tracking. Home is no longer rendered by AccountDirectory.
 - `src/AccountDirectory.jsx`: account directory, recent/favourites/sample views; account preferences.
@@ -37,7 +39,7 @@ For reference changes, run the production build when source changes warrant it a
 
 ## Preserve these decisions
 
-1. Option 10 is the approved primary Opportunities experience; do not restore the old list UI or choose another gallery alternative. Left navigation exposes Recommended, Explore, and My Opportunities. Recommended/My start with preview open; Explore combines keyword and guided entry, then facet-led Search. My uses Saved/Uploaded tabs.
+1. Option 10 is the approved primary Opportunities experience; do not restore the old list UI or choose another gallery alternative. Left navigation exposes Recommended, Explore, My Prompts, and My Opportunities. Recommended/My start with preview open. Explore contains keyword search and five dimensions: Contact, Persona, Product, Business unit, and Signal; each opens a context view with the same five tabs, then facet-led Search. Do not put custom prompts or prompt history back in Explore. My Prompts owns creation, review, save/update, edit, and matching results. Keep optional signals/exclusions collapsed and naming/save/update in the review step. The library provides search, counts, View opportunities, Edit prompt, and Create prompt; finding opportunities must not imply saving. Preserve editable include/exclude phrases, Any/All logic, live captured-result count, result text-match reasons, and Edit prompt. Prompt matching excludes imported records and must not be presented as AI reasoning or verified signal discovery. Omit Trigger from Option 10. My Opportunities uses Saved/Uploaded tabs.
 2. Home prioritizes opportunities, with supporting people, recent work, signals, and accounts. Avoid decorative metric dashboards.
 3. People and their individual opportunity context remain first-class. Do not claim search results are verified relationships.
 4. Ask SalesPlay is a dedicated workspace with prominent top-bar entry, account and optional entity scope, and resumable history. No permanent full-height AI pane across all pages.
@@ -51,7 +53,7 @@ For reference changes, run the production build when source changes warrant it a
 
 Prototype `/` redirects to `/home`. Route definitions and titles live in `routing.js`. When adding a route, update parsing, title labels, rendering, and direct-load behavior. Keep `/contacts/import` distinct from `/contacts/:id`. Deployments need SPA fallback.
 
-Primary opportunity destinations are `/accounts/3m/opportunities` (Recommended), `?view=explore`, and `?view=my`. Inner guided steps, search conditions, preview selection, Saved/Uploaded tabs, and imports are component state, not URL-addressable. `/design-options#10` remains a standalone archive instance, not the main entry.
+Primary opportunity destinations are `/accounts/3m/opportunities` (Recommended), `?view=explore`, `?view=prompts` (My Prompts), and `?view=my`. The legacy `?view=briefs` value is still recognized as My Prompts. Prompt editor/results stay within that scope. Inner guided steps, search conditions, preview selection, Saved/Uploaded tabs, and imports are component state, not URL-addressable. `/design-options#10` remains a standalone archive instance, not the main entry.
 
 AI supports one query-selected entity: `opportunity`, `contact`, or `document`, plus optional `chat` for a saved local conversation. Selecting opportunity context replaces another selected entity. Signals open account-scoped AI; selected signal context and cross-account AI are not implemented. Home clearly scopes AI to 3M.
 
@@ -69,8 +71,9 @@ Persistent prototype state uses localStorage with fallback handling:
 - `salesplay-recent-work-v1`: up to eight person/opportunity visits.
 - `salesplay-conversations-v1`: latest 50 conversations and scopes.
 - `salesplay-imported-contacts-v1`: local imported contact records.
+- `salesplay-briefs-3m-v1`: multiple named opportunity prompts in primary mode; validated on read, saved by stable local ID with updated timestamp. Saving rereads storage before updating the list, but there is no cross-tab state listener or conflict resolution.
 
-Opportunity records/imports, review status, and bookmarks are shared App state across same-tab navigation; reload restores fixtures and three demonstration bookmarks. Explore history and inner flow state reset when the workspace unmounts. Saved contacts, filters, and unsent drafts also reset on reload. New tabs have independent transient state. Local chat/import URLs require their saved record in that browser. No user/tenant scoping, auth, server sync, or production retention is implemented. Non-theme stores do not synchronize React state between open tabs and stale snapshots may overwrite newer localStorage data; new-tab support does not establish cross-tab consistency.
+Opportunity records/imports, review status, and bookmarks are shared App state across same-tab navigation; reload restores fixtures and three demonstration bookmarks. Explore history, unsaved prompt drafts, active search criteria, and inner flow state reset when the workspace unmounts. Explicitly saved named prompts survive reload in primary mode; gallery prompts remain in memory. Explore history excludes prompt snapshots; unsaved prompt drafts are not persisted. Saved contacts, filters, and unsent drafts also reset on reload. New tabs have independent transient state. Local chat/import URLs require their saved record in that browser. No user/tenant scoping, auth, server sync, or production retention is implemented. Non-theme stores do not synchronize React state between open tabs and stale snapshots may overwrite newer localStorage data; new-tab support does not establish cross-tab consistency.
 
 The People-directory CSV importer supports file/paste, headers/mapping, quoted values, comma/tab/semicolon separation, up to 500 rows / 2 MiB per import (the UI says 2 MB), required name, optional email validation, and duplicate/company skips. Missing company defaults to 3M; other-company rejection is fixture-specific. Do not treat duplicate-by-name as a universal production rule.
 
@@ -91,3 +94,5 @@ For small reference edits, keep diffs scoped rather than reformatting the whole 
 Read INTEGRATION.md before production work. Discover actual APIs; do not fabricate endpoint names or change their contracts. Preserve production authentication, permissions, account/seller context and error semantics. Report unsupported capabilities explicitly and continue independent work.
 
 Keep README and relevant product docs aligned after behavior changes. `.impeccable` briefs and optional screenshots are reference material, not runtime dependencies; review images are gitignored. Earlier verification claims describe scoped prototype checks, not production readiness. File-picker automation was not completed here; paste import was checked. Do not claim unrun checks, merge, deploy, or publish without authorization.
+
+Outreach: see README's Opportunity outreach and INTEGRATION's Outreach handover. `src/outreach.js` is intentionally a deterministic template adapter; do not describe its saved free-text instructions as functioning AI generation. Preserve Copy/mailto delivery, personal-only templates, preview before replacing the active draft, contact-specific drafts, legacy conversation-kit route compatibility, and captured qualification content. My Prompts is for discovery, not outreach instructions.
