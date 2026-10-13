@@ -19,7 +19,7 @@ h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:
 
 .chrome{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:0 calc(64px * var(--fit,1)) calc(34px * var(--fit,1));font:500 calc(20px * var(--fit,1)) "Source Sans 3",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);pointer-events:none}
 
-/* 1. Cover: a route crosses the stage in three moves and stops where the title's promise is */
+/* Cover: a route crosses the stage in three moves and stops where the title's promise is */
 .cover-line{position:absolute;inset:0;width:100%;height:100%}
 .cover-line path{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
 .cover-line circle{fill:var(--accent);opacity:0;transform-origin:1790px 168px;transform:scale(.2)}
@@ -39,14 +39,112 @@ h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:
 .cover[data-on] .dateline{animation:rise 1.1s var(--out) 2s forwards}
 @keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
 
-/* 2. The thesis: the sentence sets itself word by word, then the answer */
+/* Usage of SalesPlay 1.0: three measures, each with its latest figure and its six months */
+.measure{position:absolute;top:300px;width:500px}
+.measure:nth-of-type(1){left:140px}.measure:nth-of-type(2){left:710px}.measure:nth-of-type(3){left:1280px}
+.measure h3{padding-top:28px;border-top:4px solid var(--accent);font:600 26px "Source Sans 3",Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.measure .figure{margin-top:26px;font:400 112px/1 "Source Serif 4",Georgia,serif;letter-spacing:-.02em}
+.measure .figure small{font:400 30px "Source Sans 3",Arial,sans-serif;letter-spacing:0;color:var(--soft)}
+.measure .note{margin-top:14px;font-size:30px;line-height:1.3;color:var(--soft)}
+.plot{display:block;width:500px;height:340px;margin-top:26px;overflow:visible}
+.plot .base{stroke:rgb(169 188 203 / .35);stroke-width:2}
+.plot .tick{font:500 22px "Source Sans 3",Arial,sans-serif;fill:var(--faint);text-anchor:middle}
+.plot .val{font:600 26px "Source Sans 3",Arial,sans-serif;fill:var(--paper)}
+/* #27a877 is the accent stepped down to pass the chart-colour checks on this surface */
+.plot .series{fill:none;stroke:#27a877;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.plot .dot{fill:#27a877;stroke:var(--deep);stroke-width:4;opacity:0}
+.plot .bar{fill:#27a877;transform-box:fill-box;transform-origin:bottom;transform:scaleY(0)}
+.plot .val{opacity:0}
+.usage[data-on] .measure:is(:not([data-step]),[data-shown]) .series{animation:draw 1.6s var(--ease) .5s forwards}
+.usage[data-on] .measure:is(:not([data-step]),[data-shown]) :is(.dot,.val){animation:land .6s var(--out) 1.9s forwards}
+.usage[data-on] .measure[data-shown] .bar{animation:grow .9s var(--out) calc(.4s + var(--i) * .08s) forwards}
+.usage[data-on] .measure[data-shown] .bar~.val{animation-delay:1.2s}
+@keyframes grow{to{transform:scaleY(1)}}
+
+/* The LANXESS renewal: three tallies count up beside the flywheel they describe */
+.tally{position:absolute;left:140px;width:640px}
+.tally:nth-of-type(1){top:296px}.tally:nth-of-type(2){top:516px}.tally:nth-of-type(3){top:736px}
+.tally h3{font:600 24px "Source Sans 3",Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.tally .figure{margin-top:6px;font:400 104px/1 "Source Serif 4",Georgia,serif;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.tally .figure small{font:400 30px "Source Sans 3",Arial,sans-serif;letter-spacing:0;color:var(--soft)}
+.tally .note{position:absolute;right:0;top:64px;font-size:28px;color:var(--soft)}
+/* Two bars on one scale: what it was, and what it is now growing out from that length */
+.bars{margin-top:16px;display:grid;row-gap:6px}
+.bars i{display:block;height:10px;border-radius:0 4px 4px 0;transform-origin:left}
+.bars i:first-child{width:calc(var(--was) * 100%);background:rgb(169 188 203 / .4)}
+.bars i:last-child{background:#27a877;transform:scaleX(var(--was))}
+.deal[data-on] .bars i:last-child{animation:fill 1.5s var(--out) .5s forwards}
+@keyframes fill{to{transform:scaleX(1)}}
+.flywheel{position:absolute;left:960px;top:236px;width:800px;height:800px;overflow:visible}
+.flywheel .rim{fill:none;stroke:rgb(169 188 203 / .18);stroke-width:2}
+.flywheel .turn{fill:none;stroke:#27a877;stroke-width:6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.flywheel .head{fill:none;stroke:#27a877;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.flywheel[data-shown] .turn{animation:draw 1.4s var(--ease) .3s forwards}
+.flywheel[data-shown] .turn:nth-of-type(2){animation-delay:1.1s}
+.flywheel .spin{fill:var(--accent);transform-origin:380px 380px;animation:spin 9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.flywheel .says{font:600 22px "Source Sans 3",Arial,sans-serif;letter-spacing:.14em;text-transform:uppercase;text-anchor:middle;fill:var(--soft)}
+.flywheel .hub circle{fill:var(--deep);stroke:var(--accent);stroke-width:3}
+.flywheel .hub text{font:400 30px "Source Serif 4",Georgia,serif;text-anchor:middle;fill:var(--paper)}
+.flywheel .core{font:400 108px "Source Serif 4",Georgia,serif;letter-spacing:-.02em;text-anchor:middle;fill:var(--paper)}
+.flywheel .core-note{font:400 28px "Source Sans 3",Arial,sans-serif;text-anchor:middle;fill:var(--soft)}
+
+/* What changed: three drawings zoom in, from the vertical to the plant to the molecule */
+.zoom{position:absolute;top:286px;width:500px}
+.zoom:nth-of-type(1){left:140px}.zoom:nth-of-type(2){left:710px}.zoom:nth-of-type(3){left:1280px}
+.zoom svg{display:block;width:500px;height:280px;overflow:visible;border-bottom:4px solid var(--accent)}
+.zoom h3{margin-top:26px;font:600 26px "Source Sans 3",Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.zoom p{margin-top:14px;font:400 34px/1.25 "Source Serif 4",Georgia,serif}
+.zoom .tag{font:500 24px "Source Sans 3",Arial,sans-serif;fill:var(--soft)}
+.zoom .big{font:400 112px "Source Serif 4",Georgia,serif;letter-spacing:-.02em;fill:var(--paper)}
+.cards rect{fill:#27a877;opacity:0;transform:translateY(24px)}
+.cards .was{fill:none;stroke:var(--soft);stroke-width:2}
+.shift[data-on] .cards rect{animation:rise .8s var(--out) forwards}
+.shift[data-on] .cards rect:nth-child(1){animation-delay:.5s}.shift[data-on] .cards rect:nth-child(2){animation-delay:1.1s}.shift[data-on] .cards rect:nth-child(3){animation-delay:1.25s}.shift[data-on] .cards rect:nth-child(4){animation-delay:1.4s}.shift[data-on] .cards rect:nth-child(5){animation-delay:1.55s}
+.field{fill:rgb(169 188 203 / .28)}
+.land{fill:rgb(39 168 119 / .12);stroke:rgb(169 188 203 / .4);stroke-width:2;stroke-dasharray:6 8}
+.pin{fill:#27a877}.pin-eye{fill:var(--deep)}
+.pin,.pin-eye{opacity:0;transform:translateY(-60px)}
+.zoom[data-shown] :is(.pin,.pin-eye){animation:drop .7s var(--out) .6s forwards}
+@keyframes drop{to{opacity:1;transform:none}}
+.pulse{fill:none;stroke:var(--accent);stroke-width:2;transform-box:fill-box;transform-origin:center;opacity:0}
+.zoom[data-shown] .pulse{animation:pulse 2.4s ease-out 1.3s infinite}
+@keyframes pulse{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(3.2)}}
+.bonds path{fill:none;stroke:#27a877;stroke-width:5;stroke-linecap:round;stroke-dasharray:110;stroke-dashoffset:110}
+.zoom[data-shown] .bonds path{animation:bond .7s var(--ease) forwards}
+.zoom[data-shown] .bonds path:nth-child(1){animation-delay:.5s}.zoom[data-shown] .bonds path:nth-child(2){animation-delay:.7s}.zoom[data-shown] .bonds path:nth-child(3){animation-delay:.9s}.zoom[data-shown] .bonds path:nth-child(4){animation-delay:1.1s}.zoom[data-shown] .bonds path:nth-child(5){animation-delay:1.3s}.zoom[data-shown] .bonds path:nth-child(6){animation-delay:1.5s}
+@keyframes bond{to{stroke-dashoffset:0}}
+.atoms text{font:400 46px "Source Serif 4",Georgia,serif;text-anchor:middle;fill:var(--paper)}
+.zoom .sub{font-size:17px}
+
+/* Four more gains, each with a small drawing of what it is */
+.gain{position:absolute;top:290px;width:380px}
+.gain:nth-of-type(1){left:140px}.gain:nth-of-type(2){left:560px}.gain:nth-of-type(3){left:980px}.gain:nth-of-type(4){left:1400px}
+.gain svg{display:block;width:380px;height:240px;overflow:visible;border-bottom:4px solid var(--accent)}
+.gain h3{margin-top:26px;font:600 24px "Source Sans 3",Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+.gain p{margin-top:14px;font:400 36px/1.22 "Source Serif 4",Georgia,serif}
+.gain .tag{font:500 22px "Source Sans 3",Arial,sans-serif;fill:var(--soft)}
+.gain .flow{fill:none;stroke:#27a877;stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.gain .head{fill:none;stroke:#27a877;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.gains[data-on] .gain:is(:not([data-step]),[data-shown]) .flow{animation:draw 1s var(--ease) .5s forwards}
+.gains[data-on] .gain:is(:not([data-step]),[data-shown]) .flow.back{animation-delay:1.2s}
+.gain .port{fill:var(--deep);stroke:var(--accent);stroke-width:3}
+.gain :is(.box,.sheet){fill:rgb(169 188 203 / .06);stroke:rgb(169 188 203 / .45);stroke-width:2}
+.gain .name{font:400 28px "Source Serif 4",Georgia,serif;text-anchor:middle;fill:var(--paper)}
+.gain .rows path{fill:none;stroke:#27a877;stroke-width:5;stroke-linecap:round;stroke-linejoin:round}
+.gain .rows text{font:500 22px "Source Sans 3",Arial,sans-serif;fill:var(--paper)}
+.crowd .near{fill:var(--soft)}
+.crowd .far{fill:#27a877;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.2)}
+.gain[data-shown] .crowd .far{animation:land .5s var(--out) calc(.5s + var(--i) * .035s) forwards}
+
+/* The thesis: the sentence sets itself word by word, then the answer */
 .thesis h2 span{display:inline-block;opacity:0;transform:translateY(34px)}
 .thesis[data-on] h2 span{animation:rise 1s var(--out) calc(.35s + var(--i) * .11s) forwards}
 .thesis .answer{position:absolute;left:140px;top:800px;font:400 68px/1.1 "Source Serif 4",Georgia,serif;color:var(--soft)}
 .thesis .answer em{color:var(--accent)}
 .thesis .answer::before{content:"";position:absolute;left:0;top:-52px;width:132px;height:5px;border-radius:3px;background:var(--accent)}
 
-/* 3. The chain: the line travels, and each link arrives on it */
+/* The chain: the line travels, and each link arrives on it */
 .track{position:absolute;left:140px;top:330px;width:1640px;height:4px;border-radius:2px;background:rgb(169 188 203 / .16)}
 .track i{position:absolute;inset:0;border-radius:2px;background:linear-gradient(90deg,var(--soft),var(--accent));transform-origin:left;transform:scaleX(0);transition:transform 1.4s var(--ease)}
 .chain[data-on] .track i{transform:scaleX(.037)}
@@ -63,7 +161,7 @@ h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:
 /* Earlier links step back once a later one has arrived */
 .chain[data-at="1"] .link:nth-of-type(1),.chain[data-at="2"] .link:nth-of-type(-n+2),.chain[data-at="3"] .link:not(.now){opacity:.5}
 
-/* 4. The film */
+/* The film */
 .film h2 span{color:var(--soft);font-style:italic;font-weight:300}
 .screen{position:absolute;left:240px;top:150px;width:1440px;height:810px;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 50px 140px rgb(0 0 0 / .6),0 0 0 1px rgb(255 255 255 / .08)}
 .screen video{display:block;width:100%;height:100%;object-fit:cover}
@@ -71,7 +169,7 @@ h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:
 .screen .hint::after{content:"";position:absolute;left:40px;top:31px;border-left:34px solid var(--paper);border-top:21px solid transparent;border-bottom:21px solid transparent}
 .film[data-at="1"] .hint{opacity:0}
 
-/* 5 to 12. Shared parts of the product slides */
+/* Shared parts of the product slides */
 .slide>h2{position:absolute;left:140px;top:84px;font-size:68px;line-height:1.1}
 .film>h2{top:60px;font-size:52px}
 .thesis>h2{top:232px;width:1560px;font-size:124px;line-height:1.08}
@@ -88,7 +186,7 @@ h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:
 .caption h3 small,.groups small{margin-left:14px;padding:3px 12px;border-radius:99px;font:600 20px "Source Sans 3",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;vertical-align:middle;color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
 .caption p{margin-top:10px;font-size:30px;line-height:1.3;color:var(--soft)}
 
-/* 5. The map */
+/* The map */
 .groups{position:absolute;left:140px;top:300px;display:grid;grid-template-columns:repeat(4,380px);column-gap:40px}
 .groups article{padding-top:28px;border-top:4px solid var(--accent)}
 .groups h3{font:600 26px "Source Sans 3",Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
@@ -96,7 +194,7 @@ h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:
 .groups li{padding:26px 0;font:400 40px/1.2 "Source Serif 4",Georgia,serif;border-top:1px solid rgb(169 188 203 / .2)}
 .groups li:first-child{border-top:0;padding-top:0}
 
-/* 6, 7, 9. A walk through one screen at a time: each press brings the next screen over the
+/* A walk through one screen at a time: each press brings the next screen over the
    last, and lights the point it shows. */
 .points{position:absolute;left:140px;top:300px;width:470px}
 .points li{padding:26px 0 26px 26px;border-left:4px solid rgb(169 188 203 / .2);font-size:30px;line-height:1.3;color:var(--faint);transition:color .6s,border-color .6s}
@@ -106,7 +204,7 @@ h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:
 .kit .points li{padding:17px 0 17px 26px;font-size:28px}
 .kit .points b{font-size:36px}
 
-/* 13. The close: the line from the cover returns and comes to rest */
+/* The close: the line from the cover returns and comes to rest */
 .close-line{position:absolute;inset:0;width:100%;height:100%}
 .close-line path{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
 .close-line circle{fill:var(--accent);opacity:0;transform-origin:760px 318px;transform:scale(.2)}

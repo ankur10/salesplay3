@@ -3,7 +3,7 @@
 //   F: fullscreen      Home / End: first / last slide      1-9: jump to a slide
 // The address keeps the place (#3.1 is slide 3, step 1), so a reload returns to it.
 (() => {
-  const deck = document.getElementById('deck'), slides = [...deck.querySelectorAll('.slide')], count = document.getElementById('count');
+  const deck = document.getElementById('deck'), slides = [...deck.querySelectorAll('.slide')], counter = document.getElementById('count');
   let slide = 0, step = 0;
   const steps = i => Number(slides[i].dataset.steps || 0);
 
@@ -11,6 +11,24 @@
   for (const el of deck.querySelectorAll('.words')) el.innerHTML = el.textContent.trim().split(/\s+/).map((word, i) => `<span style="--i:${i}">${word}</span>`).join(' ');
   for (const list of deck.querySelectorAll('ul')) [...list.children].forEach((item, i) => item.style.setProperty('--i', i));
 
+  // Figures with data-from and data-to count up when their slide arrives, and reset when it leaves.
+  const tallies = [...deck.querySelectorAll('[data-to]')];
+  function count() {
+    for (const el of tallies) {
+      const on = el.closest('.slide') === slides[slide], {from, to, pre = '', post = ''} = el.dataset;
+      if (!on) { el.counting = false; continue; }
+      if (el.counting) continue;
+      el.counting = true;
+      const start = performance.now() + 500;
+      const run = now => {
+        if (!el.counting) return;
+        const p = Math.max(0, Math.min(1, (now - start) / 1500)), eased = 1 - (1 - p) ** 3;
+        el.textContent = pre + Math.round(+from + (to - from) * eased) + post;
+        if (p < 1) requestAnimationFrame(run);
+      };
+      run(start - 500);
+    }
+  }
   function show() {
     slides.forEach((el, i) => {
       el.toggleAttribute('data-on', i === slide);
@@ -23,7 +41,8 @@
         if (i !== slide) video.currentTime = 0;
       }
     });
-    count.textContent = `${slide + 1} / ${slides.length}`;
+    counter.textContent = `${slide + 1} / ${slides.length}`;
+    count();
     history.replaceState(null, '', `#${slide + 1}${step ? '.' + step : ''}`);
   }
   function go(toSlide, toStep = 0) {

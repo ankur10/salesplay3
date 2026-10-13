@@ -1,10 +1,10 @@
 # SalesPlay deck
 
-Thirteen slides and a two-minute film. Everything it needs is in this folder: no network, no build, no install.
+Seventeen slides and a two-minute film. Everything it needs is in this folder: no network, no build, no install.
 
 ## Present from any machine
 
-Copy this folder across (or clone the repository) and open `index.html` in Chrome, Edge or Safari. That is all the slides and the film on slide 4 need.
+Copy this folder across (or clone the repository) and open `index.html` in Chrome, Edge or Safari. That is all the slides and the film on slide 8 need.
 
 - Next: right arrow, space or Enter. Back: left arrow.
 - `F`: fullscreen. `1`–`9`, Home, End: jump to a slide.
@@ -23,4 +23,4 @@ The screens show real account data and named contacts. Anyone with the link can 
 
 ## The film's source
 
-`video/` draws the film live at `video/index.html` (press space). That page loads JavaScript modules, so it needs a web server rather than a double-click; the exported `assets/demo.mp4` on slide 4 does not. Regenerating the voice-over or re-exporting is described in the repository's main README.
+`video/` draws the film live at `video/index.html` (press space). That page loads JavaScript modules, so it needs a web server rather than a double-click; the exported `assets/demo.mp4` on slide 8 does not. Regenerating the voice-over or re-exporting is described in the repository's main README.
