@@ -1,6 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/deck",
+      "destination": "/deck/"
+    },
+    {
+      "source": "/deck/video",
+      "destination": "/deck/video/"
+    }
   ]
 }

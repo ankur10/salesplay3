@@ -210,7 +210,7 @@ Relevant files: `src/OutreachWorkspace.jsx` (workflow), `src/outreach.js` (templ
 
 ### Slide deck and film
 
-`deck/` holds an internal SalesPlay presentation, separate from the prototype app and not part of `npm run build`. It follows the GrowthIQ 2.0 deck: one 1920×1080 stage, thirteen slides, and a two-minute narrated film on slide 4. The film follows Nancy, an invented LANXESS seller with a quota to hit and a nine o’clock pipeline review; her story is fiction, the product screens are not.
+`deck/` holds an internal SalesPlay presentation, separate from the prototype app. The folder is self-contained: every font, screen, sound and the film live inside it, so it can be copied to another machine or hosted by itself (see `deck/README.md`). `npm run build` copies it into `dist/deck/`, so the Vercel deployment serves it at `/deck/`. It follows the GrowthIQ 2.0 deck: one 1920×1080 stage, thirteen slides, and a two-minute narrated film on slide 4. The film follows Nancy, an invented LANXESS seller with a quota to hit and a nine o’clock pipeline review; her story is fiction, the product screens are not.
 
 ```sh
 npm run deck        # serves the repo and opens /deck/
