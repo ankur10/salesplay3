@@ -207,3 +207,32 @@ Outreach opens with pre-filled editable Email, Talking points, and Follow-up tab
 Delivery remains Copy or Open in email app (`mailto:`); SalesPlay does not send or track email. Existing per-contact drafts are preserved. Default content is deterministic; free-form template instructions are saved as guidance but are not interpreted by AI.
 
 Relevant files: `src/OutreachWorkspace.jsx` (workflow), `src/outreach.js` (template/storage/mailto helpers), `src/outreach.css` (responsive layout), `src/routing.js` and `src/main.jsx` (entry points). Browser keys: `salesplay-outreach-templates-v1`, `salesplay-outreach-drafts-v1`, and the retained `salesplay-outreach-preferences-v1` for legacy signature/tone defaults. Production must use authenticated user-scoped persistence.
+
+### Slide deck and film
+
+`deck/` holds an internal SalesPlay presentation, separate from the prototype app and not part of `npm run build`. It follows the GrowthIQ 2.0 deck: one 1920×1080 stage, thirteen slides, and a two-minute narrated film on slide 4. The film follows Nancy, an invented LANXESS seller with a quota to hit and a nine o’clock pipeline review; her story is fiction, the product screens are not.
+
+```sh
+npm run deck        # serves the repo and opens /deck/
+npm run test:deck   # checks the film's script, timings and panel positions
+```
+
+Keys: right arrow, space or Enter for the next step; left arrow to go back; `F` for fullscreen; `1`–`9`, Home and End to jump. The address keeps the place (`#7.2` is slide 7, step 2).
+
+| Path | Purpose |
+| --- | --- |
+| `deck/index.html`, `deck/deck.css`, `deck/deck.js` | The slides, their styles, and the runner |
+| `deck/assets/screens/` | Screens of the live product, captured on 13 October 2026 for Baxter International as seen by a LANXESS seller |
+| `deck/assets/demo.mp4`, `deck/assets/poster.jpg` | The exported film and its poster frame |
+| `deck/video/` | The film's source: `narration.mjs` (script), `shots.mjs` (beats and lifted panels), `tour.mjs` (drawing and sound), `voice/` (one recorded line per beat) |
+
+The screens show real account data and named Baxter contacts; the deck is for internal use. Unlike the prototype, these are captures of the live product, not fixtures.
+
+The film is drawn as a function of time, so it can be played live at `/deck/video/` (press space) or exported frame by frame. Voice-over and export use the tools in the GrowthIQ repository (`giq2`), which need `OPENAI_API_KEY`, Chrome and ffmpeg:
+
+```sh
+node ../giq2/tools/make-voiceover.mjs --story "$PWD/deck/video"     # after editing narration.mjs
+node ../giq2/tools/export-video.mjs deck/video/ 0 131 deck/out/salesplay.mp4 http://127.0.0.1:5180/
+```
+
+Run `npm run deck` first so the export has a server to read from, and take the end time from `window.totalSeconds` on the film page if the script changes. Copy the result to `deck/assets/demo.mp4`.

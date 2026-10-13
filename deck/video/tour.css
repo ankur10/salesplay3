@@ -1,0 +1,33 @@
+/* The SalesPlay video. Every moving value is set from tour.mjs as a function of time, so a
+   frame can be drawn for any moment; nothing here animates by itself. */
+@font-face{font-family:"Source Serif 4";src:url(../assets/fonts/serif.woff2) format("woff2");font-weight:200 900;font-display:block}
+@font-face{font-family:"Source Sans 3";src:url(../assets/fonts/sans.woff2) format("woff2");font-weight:200 900;font-display:block}
+:root{--edge:#040d16;--paper:#f4f1ea;--mint:#7ee8bd;--ink:#0a2a3c}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--edge)}
+.tour{position:fixed;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--fit,1));overflow:hidden;color:var(--paper);font-family:"Source Sans 3",Arial,sans-serif;background:radial-gradient(120% 95% at 50% 40%,#2b7f86 0%,#155062 42%,#0a2a3c 100%)}
+.start{position:fixed;left:50%;bottom:8%;transform:translateX(-50%);margin:0;padding:10px 22px;border-radius:99px;font:500 16px "Source Sans 3",Arial,sans-serif;color:var(--paper);background:rgb(4 13 22 / .8)}
+.beat{position:absolute;inset:0;perspective:2200px;opacity:0}
+.glow{position:absolute;left:560px;top:200px;width:800px;height:680px;border-radius:50%;background:radial-gradient(closest-side,rgb(110 240 180 / .4),rgb(110 240 180 / 0));filter:blur(30px)}
+.clock{position:absolute;right:200px;top:28px;margin:0;font:italic 400 52px/1.2 "Source Serif 4",Georgia,serif;color:var(--mint)}
+.card{position:absolute;border-radius:16px;background:#fff;box-shadow:0 50px 130px rgb(2 14 22 / .55),0 0 0 1px rgb(255 255 255 / .25);transform-origin:50% 60%}
+.card>img{position:absolute;display:block}
+.chip{position:absolute;left:14px;top:-52px;margin:0;padding:5px 16px;border-radius:99px;font:600 24px/1.4 "Source Sans 3",Arial,sans-serif;color:var(--ink);background:var(--mint)}
+.card .dim{position:absolute;inset:0;border-radius:16px;background:var(--ink);opacity:0}
+.panel{position:absolute;border-radius:8px;background-color:#fff;background-repeat:no-repeat;opacity:0}
+.label{position:absolute;left:200px;top:34px;margin:0;padding-left:20px;border-left:5px solid var(--mint);font:600 30px/1.5 "Source Sans 3",Arial,sans-serif;letter-spacing:.04em;color:var(--paper)}
+.caption{position:absolute;left:260px;right:260px;bottom:56px;margin:0;text-align:center;font:400 34px/1.3 "Source Sans 3",Arial,sans-serif;color:var(--paper);text-wrap:balance}
+.caption span{padding:6px 18px;border-radius:8px;background:rgb(6 24 36 / .8);box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.tag{position:absolute;margin:0;font:400 38px/1.2 "Source Serif 4",Georgia,serif}
+.title{position:absolute;left:140px;top:300px;width:1500px;margin:0;font:400 124px/1.08 "Source Serif 4",Georgia,serif;letter-spacing:-.02em}
+.title span{display:inline-block}
+.title em{color:var(--mint)}
+.typed{position:absolute;left:210px;top:270px;width:1500px;margin:0;font:400 88px/1.16 "Source Serif 4",Georgia,serif;letter-spacing:-.015em}
+.typed i{display:inline-block;width:5px;height:84px;margin-left:6px;vertical-align:-12px;background:var(--mint)}
+.sign{position:absolute;left:140px;bottom:120px;margin:0;font-size:28px;letter-spacing:.04em;color:#cfe3ea}
+.line{position:absolute;inset:0;width:100%;height:100%}
+.line path{fill:none;stroke:var(--mint);stroke-width:5;stroke-linecap:round;stroke-dasharray:1}
+.line circle{fill:var(--mint)}
+.deadline{position:absolute;right:200px;top:92px;margin:0;font:600 20px/1.2 "Source Sans 3",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#cfe3ea}
+.notes{position:absolute;left:140px;top:600px;display:flex;gap:110px}
+.note{margin:0;font:400 34px/1.3 "Source Sans 3",Arial,sans-serif;color:#cfe3ea}
+.note b{display:block;font:400 132px/1.05 "Source Serif 4",Georgia,serif;letter-spacing:-.02em;color:var(--mint)}

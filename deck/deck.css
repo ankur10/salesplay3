@@ -1,0 +1,118 @@
+/* The SalesPlay deck: one 1920x1080 stage, in the product's own type and colours.
+   Dark throughout, so the white product screens are the brightest thing shown.
+   The accent is the green the product uses for accepted, high relevance and completed steps. */
+@font-face{font-family:"Source Serif 4";src:url(assets/fonts/serif.woff2) format("woff2");font-weight:200 900;font-display:block}
+@font-face{font-family:"Source Sans 3";src:url(assets/fonts/sans.woff2) format("woff2");font-weight:200 900;font-display:block}
+
+:root{--navy:#0d2a40;--deep:#071c2c;--edge:#040d16;--accent:#4ed6a0;--paper:#f4f1ea;--soft:#a9bccb;--faint:#5b7186;--out:cubic-bezier(.16,1,.3,1);--ease:cubic-bezier(.65,0,.2,1)}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--edge)}
+body[data-idle]{cursor:none}
+.deck{position:fixed;left:50%;top:50%;width:1920px;height:1080px;transform:translate(-50%,-50%) scale(var(--fit,1));overflow:hidden;color:var(--paper);font-family:"Source Sans 3",Arial,sans-serif;background:radial-gradient(120% 90% at 50% 45%,var(--navy) 0%,var(--deep) 45%,var(--edge) 100%)}
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .7s var(--ease),visibility 0s .7s}
+.slide[data-on]{opacity:1;visibility:visible;transition:opacity .9s var(--ease) .15s}
+h1,h2,h3,p,ul,ol{margin:0;padding:0}ul,ol{list-style:none}
+h1,h2{font-family:"Source Serif 4",Georgia,serif;font-weight:400;letter-spacing:-.02em}
+
+/* Anything with a step waits for it */
+[data-step]{opacity:0;transform:translateY(22px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+[data-step][data-shown]{opacity:1;transform:none;transition:opacity .9s var(--out),transform 1.1s var(--out)}
+
+.chrome{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:space-between;padding:0 calc(64px * var(--fit,1)) calc(34px * var(--fit,1));font:500 calc(20px * var(--fit,1)) "Source Sans 3",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);pointer-events:none}
+
+/* 1. Cover: a route crosses the stage in three moves and stops where the title's promise is */
+.cover-line{position:absolute;inset:0;width:100%;height:100%}
+.cover-line path{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
+.cover-line circle{fill:var(--accent);opacity:0;transform-origin:1790px 168px;transform:scale(.2)}
+.cover[data-on] .cover-line path{animation:draw 3.2s var(--ease) .5s forwards}
+.cover[data-on] .cover-line circle{animation:land .9s var(--out) 3.5s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes land{to{opacity:1;transform:none}}
+.cover .eyebrow,.cover h1,.cover .lede,.cover .dateline{position:absolute;left:140px;opacity:0}
+.cover .eyebrow{top:236px;font:600 28px "Source Sans 3",Arial,sans-serif;letter-spacing:.14em;color:var(--accent)}
+.cover h1{top:286px;font-size:208px;line-height:1}
+.cover h1 span{color:var(--accent);font-style:italic;font-weight:300}
+.cover .lede{top:540px;font:400 52px/1.25 "Source Serif 4",Georgia,serif;color:var(--soft)}
+.cover .dateline{bottom:104px;font-size:28px;color:var(--faint);letter-spacing:.04em}
+.cover[data-on] .eyebrow{animation:rise 1.1s var(--out) .3s forwards}
+.cover[data-on] h1{animation:rise 1.3s var(--out) .5s forwards}
+.cover[data-on] .lede{animation:rise 1.3s var(--out) 1.3s forwards}
+.cover[data-on] .dateline{animation:rise 1.1s var(--out) 2s forwards}
+@keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+
+/* 2. The thesis: the sentence sets itself word by word, then the answer */
+.thesis h2 span{display:inline-block;opacity:0;transform:translateY(34px)}
+.thesis[data-on] h2 span{animation:rise 1s var(--out) calc(.35s + var(--i) * .11s) forwards}
+.thesis .answer{position:absolute;left:140px;top:800px;font:400 68px/1.1 "Source Serif 4",Georgia,serif;color:var(--soft)}
+.thesis .answer em{color:var(--accent)}
+.thesis .answer::before{content:"";position:absolute;left:0;top:-52px;width:132px;height:5px;border-radius:3px;background:var(--accent)}
+
+/* 3. The chain: the line travels, and each link arrives on it */
+.track{position:absolute;left:140px;top:330px;width:1640px;height:4px;border-radius:2px;background:rgb(169 188 203 / .16)}
+.track i{position:absolute;inset:0;border-radius:2px;background:linear-gradient(90deg,var(--soft),var(--accent));transform-origin:left;transform:scaleX(0);transition:transform 1.4s var(--ease)}
+.chain[data-on] .track i{transform:scaleX(.037)}
+.chain[data-on][data-at="1"] .track i{transform:scaleX(.293)}
+.chain[data-on][data-at="2"] .track i{transform:scaleX(.549)}
+.chain[data-on][data-at="3"] .track i{transform:scaleX(1)}
+.link{position:absolute;left:var(--x);top:320px;width:360px}
+.link .node{position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;background:var(--deep);border:4px solid var(--soft);box-sizing:border-box}
+.link h3{margin-top:76px;font:600 26px "Source Sans 3",Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
+.link p{margin-top:28px;font:400 44px/1.18 "Source Serif 4",Georgia,serif}
+.link small{display:block;margin-top:28px;font-size:26px;line-height:1.3;color:var(--faint)}
+.link.now .node{border-color:var(--accent);background:var(--accent);box-shadow:0 0 0 10px rgb(78 214 160 / .18)}
+.link.now h3{color:var(--accent)}
+/* Earlier links step back once a later one has arrived */
+.chain[data-at="1"] .link:nth-of-type(1),.chain[data-at="2"] .link:nth-of-type(-n+2),.chain[data-at="3"] .link:not(.now){opacity:.5}
+
+/* 4. The film */
+.film h2 span{color:var(--soft);font-style:italic;font-weight:300}
+.screen{position:absolute;left:240px;top:150px;width:1440px;height:810px;border-radius:14px;overflow:hidden;background:#000;box-shadow:0 50px 140px rgb(0 0 0 / .6),0 0 0 1px rgb(255 255 255 / .08)}
+.screen video{display:block;width:100%;height:100%;object-fit:cover}
+.screen .hint{position:absolute;left:44px;bottom:44px;width:104px;height:104px;border-radius:50%;font-size:0;background:rgb(4 13 22 / .78);box-shadow:0 0 0 2px rgb(255 255 255 / .5);transition:opacity .5s}
+.screen .hint::after{content:"";position:absolute;left:40px;top:31px;border-left:34px solid var(--paper);border-top:21px solid transparent;border-bottom:21px solid transparent}
+.film[data-at="1"] .hint{opacity:0}
+
+/* 5 to 12. Shared parts of the product slides */
+.slide>h2{position:absolute;left:140px;top:84px;font-size:68px;line-height:1.1}
+.film>h2{top:60px;font-size:52px}
+.thesis>h2{top:232px;width:1560px;font-size:124px;line-height:1.08}
+.sub{position:absolute;left:140px;top:176px;width:1500px;font:400 34px/1.3 "Source Sans 3",Arial,sans-serif;color:var(--soft)}
+/* A product screen: white, lifted off the dark stage */
+.shot{position:absolute;margin:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 36px 110px rgb(0 0 0 / .55),0 0 0 1px rgb(255 255 255 / .1)}
+.shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:left top}
+.shot:not([data-step]){opacity:0}
+.slide[data-on] .shot:not([data-step]){animation:lift 1.3s var(--out) var(--d,.35s) forwards}
+.shot[data-step]:not([data-shown]){transform:translateY(40px) scale(.97)}
+@keyframes lift{from{opacity:0;transform:translateY(46px) scale(.97)}to{opacity:1;transform:none}}
+.caption{position:absolute;top:860px;width:800px}
+.caption h3{font:400 40px/1.15 "Source Serif 4",Georgia,serif}
+.caption h3 small,.groups small{margin-left:14px;padding:3px 12px;border-radius:99px;font:600 20px "Source Sans 3",Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase;vertical-align:middle;color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.caption p{margin-top:10px;font-size:30px;line-height:1.3;color:var(--soft)}
+
+/* 5. The map */
+.groups{position:absolute;left:140px;top:300px;display:grid;grid-template-columns:repeat(4,380px);column-gap:40px}
+.groups article{padding-top:28px;border-top:4px solid var(--accent)}
+.groups h3{font:600 26px "Source Sans 3",Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.groups ul{margin-top:34px}
+.groups li{padding:26px 0;font:400 40px/1.2 "Source Serif 4",Georgia,serif;border-top:1px solid rgb(169 188 203 / .2)}
+.groups li:first-child{border-top:0;padding-top:0}
+
+/* 6, 7, 9. A walk through one screen at a time: each press brings the next screen over the
+   last, and lights the point it shows. */
+.points{position:absolute;left:140px;top:300px;width:470px}
+.points li{padding:26px 0 26px 26px;border-left:4px solid rgb(169 188 203 / .2);font-size:30px;line-height:1.3;color:var(--faint);transition:color .6s,border-color .6s}
+.points b{display:block;margin-bottom:6px;font:400 40px/1.15 "Source Serif 4",Georgia,serif}
+.walk [data-lit="0"],.walk[data-at="1"] [data-lit="1"],.walk:is([data-at="2"],[data-at="3"],[data-at="4"]) :is([data-lit="1"],[data-lit="2"]),.walk:is([data-at="3"],[data-at="4"]) [data-lit="3"],.walk[data-at="4"] [data-lit="4"]{color:var(--paper);border-color:var(--accent)}
+.kit .points{width:520px}
+.kit .points li{padding:17px 0 17px 26px;font-size:28px}
+.kit .points b{font-size:36px}
+
+/* 13. The close: the line from the cover returns and comes to rest */
+.close-line{position:absolute;inset:0;width:100%;height:100%}
+.close-line path{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.close-line circle{fill:var(--accent);opacity:0;transform-origin:760px 318px;transform:scale(.2)}
+.close[data-on] .close-line path{animation:draw 1.8s var(--ease) .4s forwards}
+.close[data-on] .close-line circle{animation:land .9s var(--out) 2s forwards}
+.close>h2{top:390px;font-size:152px;line-height:1.06;opacity:0}
+.close>h2 em{color:var(--accent)}
+.close[data-on]>h2{animation:rise 1.4s var(--out) 1.1s forwards}
+.close .sign{position:absolute;left:140px;bottom:104px;font-size:28px;letter-spacing:.04em;color:var(--faint)}
